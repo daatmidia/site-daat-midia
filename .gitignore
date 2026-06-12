@@ -1,0 +1,5 @@
+.venv/
+.pypackages/
+.tools/
+.DS_Store
+*.log
