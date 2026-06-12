@@ -3,3 +3,5 @@
 .tools/
 .DS_Store
 *.log
+.env.deploy
+daatmidia-site-hostinger.zip

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://daatmidia.com.br/sitemap.xml

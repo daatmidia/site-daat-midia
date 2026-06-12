@@ -1,0 +1,27 @@
+# DAAT Mídia Digital — Hostinger / LiteSpeed
+RewriteEngine On
+
+# Forçar HTTPS
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# www → domínio principal
+RewriteCond %{HTTP_HOST} ^www\.daatmidia\.com\.br$ [NC]
+RewriteRule ^(.*)$ https://daatmidia.com.br/$1 [L,R=301]
+
+# Página inicial
+DirectoryIndex index.html
+
+# Cache de assets estáticos
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/jpeg "access plus 30 days"
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType audio/mpeg "access plus 30 days"
+</IfModule>
+
+# UTF-8
+AddDefaultCharset UTF-8
