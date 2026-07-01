@@ -169,6 +169,25 @@
       ba_mock_p3: "Entre em contato: (49) 0000-0000 · contato@email.com",
       ba_mock2_title: "Áreas de atuação",
       ba_mock2_p: "Texto longo sem hierarquia visual. Difícil leitura no celular.",
+      sites_badge: "Portfólio web",
+      sites_h2: "Sites <span class=\"gradient\">criados pela DAAT</span>",
+      sites_lead:
+        "Projetos reais no ar — institucionais, landing pages e páginas de conversão desenvolvidas do zero para nossos clientes.",
+      sites_visit: "Visitar site →",
+      sites_camargo_tag: "Advocacia",
+      sites_camargo_title: "Dr. Camargo Quintão",
+      sites_camargo_desc:
+        "Site institucional com áreas de atuação, FAQ, artigos jurídicos e captação via WhatsApp para todo o Brasil.",
+      sites_camargo_img_alt: "Site do Dr. Camargo Quintão no notebook",
+      sites_camargo_preview_aria: "Abrir site do Dr. Camargo Quintão",
+      sites_chacara_tag: "Eventos",
+      sites_chacara_title: "Chácara do Cris",
+      sites_chacara_desc:
+        "Site para espaço de eventos em Chapecó — galeria de fotos, tipos de celebração, formulário de orçamento e integração com WhatsApp.",
+      sites_chacara_mock_brand: "Chácara do Cris",
+      sites_chacara_mock_headline: "Celebre o amor em um cenário encantador e memorável",
+      sites_chacara_mock_tags: "Casamentos · Formaturas · Eventos corporativos",
+      sites_chacara_preview_aria: "Abrir site da Chácara do Cris",
       portfolio_badge: "Conteúdo real",
       portfolio_h2: "Posts criados pela <span class=\"gradient\">DAAT</span>",
       portfolio_lead:
@@ -278,6 +297,10 @@
       proof_img2_alt: "Site do Dr. Camargo Quintão em mockup de escritório",
       proof_quote: '"A landing page ficou profissional e converte muito melhor que nosso site antigo."',
       proof_attrib: "Dr Camargo Quintão — Escritório de Advocacia",
+      proof_chacara_badge: "Projeto real no ar",
+      proof_chacara_h3: "Chácara do Cris · Espaço para Eventos",
+      proof_chacara_lead:
+        "Site institucional criado pela DAAT para casamentos, formaturas e eventos corporativos em Chapecó — SC.",
       faq_badge: "Dúvidas frequentes",
       faq_h2: "Perguntas de quem quer <span class=\"gradient\">crescer com segurança</span>",
       faq_sum1: "Em quanto tempo começo a ver resultado?",
@@ -481,6 +504,25 @@
       ba_mock_p3: "Contact us: (49) 0000-0000 · contact@email.com",
       ba_mock2_title: "Practice areas",
       ba_mock2_p: "Long text without visual hierarchy. Hard to read on mobile.",
+      sites_badge: "Web portfolio",
+      sites_h2: "Websites <span class=\"gradient\">built by DAAT</span>",
+      sites_lead:
+        "Live projects — institutional sites, landing pages, and conversion-focused pages built from scratch for our clients.",
+      sites_visit: "Visit website →",
+      sites_camargo_tag: "Law firm",
+      sites_camargo_title: "Dr. Camargo Quintão",
+      sites_camargo_desc:
+        "Institutional website with practice areas, FAQ, legal articles, and WhatsApp lead capture nationwide.",
+      sites_camargo_img_alt: "Dr. Camargo Quintão website on a laptop",
+      sites_camargo_preview_aria: "Open Dr. Camargo Quintão website",
+      sites_chacara_tag: "Events",
+      sites_chacara_title: "Chácara do Cris",
+      sites_chacara_desc:
+        "Event venue website in Chapecó — photo gallery, celebration types, quote form, and WhatsApp integration.",
+      sites_chacara_mock_brand: "Chácara do Cris",
+      sites_chacara_mock_headline: "Celebrate love in an enchanting, memorable setting",
+      sites_chacara_mock_tags: "Weddings · Graduations · Corporate events",
+      sites_chacara_preview_aria: "Open Chácara do Cris website",
       portfolio_badge: "Real content",
       portfolio_h2: "Posts created by <span class=\"gradient\">DAAT</span>",
       portfolio_lead:
@@ -589,6 +631,10 @@
       proof_img2_alt: "Dr. Camargo Quintão website in office mockup",
       proof_quote: '"The landing page looks professional and converts far better than our old website."',
       proof_attrib: "Dr. Camargo Quintão — Law firm",
+      proof_chacara_badge: "Live project",
+      proof_chacara_h3: "Chácara do Cris · Event Venue",
+      proof_chacara_lead:
+        "Institutional website built by DAAT for weddings, graduations, and corporate events in Chapecó — Brazil.",
       faq_badge: "FAQ",
       faq_h2: "Questions from teams that want to <span class=\"gradient\">grow with confidence</span>",
       faq_sum1: "How soon will I see results?",
