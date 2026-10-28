@@ -330,6 +330,9 @@
       form_notice:
         "Ao enviar, você concorda em receber contato da equipe DAAT para apresentação da estratégia.",
       form_alert: "Perfeito! Recebemos seus dados. Em breve nosso time entrará em contato.",
+      form_sending: "Enviando seus dados...",
+      form_partial:
+        "Abrimos o WhatsApp com seus dados. Se o e-mail não chegar, envie a mensagem por lá.",
       footer_tagline: "Landing page profissional para conversão e vendas.",
       footer_logo_alt: "Logo DAAT",
       wa_bubble: "Fale com nossa equipe de atendimento 😃",
@@ -664,6 +667,9 @@
       form_notice:
         "By submitting, you agree to be contacted by DAAT to present the strategy.",
       form_alert: "Perfect! We received your details. Our team will reach out soon.",
+      form_sending: "Sending your details...",
+      form_partial:
+        "We opened WhatsApp with your details. If the email does not arrive, send the message there.",
       footer_tagline: "Professional landing page for conversion and sales.",
       footer_logo_alt: "DAAT logo",
       wa_bubble: "Talk to our support team 😃",

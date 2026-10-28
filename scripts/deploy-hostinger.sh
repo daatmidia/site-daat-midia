@@ -18,7 +18,7 @@ zip -rq "$ZIP_OUT" \
   index.html i18n-site.js styles.css script.js \
   conheca-o-projeto.html conheca-o-projeto.css conheca-o-projeto.js \
   ouvidoria.html ouvidoria.css ouvidoria.js \
-  .htaccess robots.txt sitemap.xml \
+  .htaccess robots.txt sitemap.xml enviar-lead.php tracking.js tracking-config.js \
   assets/fundo-daat.png assets/logo-daat-real.png assets/musica-daat.mp3 \
   assets/prova-social-camargo-escritorio.png assets/prova-social-camargo-notebook.png \
   assets/.gitkeep \
