@@ -18,37 +18,42 @@
   <script src="tracking.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/clarix/css/fonts.css">
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* ~10% mais escuro que a base anterior */
-      --c-bg: #ffffff;
-      --c-surface: #f6f7fb;
-      --c-card: rgba(17, 24, 39, 0.04);
-      --c-border: rgba(17, 24, 39, 0.14);
-      --c-text: #17142a;
-      --c-muted: #5f5a7a;
-      --c-purple: #6c4ef8;
-      --c-violet: #a952ff;
-      --c-pink: #ef64d8;
-      --c-orange: #f5a245;
-      --c-cyan: #67d4ff;
-      --grad-main: linear-gradient(120deg, var(--c-purple), var(--c-violet), var(--c-pink), var(--c-orange));
-      --shadow: 0 20px 45px rgba(90, 60, 170, 0.35);
-      --radius: 18px;
-      --maxw: min(1140px, calc(100% - 2rem));
+      --c-bg: transparent;
+      --c-surface: rgba(255, 255, 255, 0.4);
+      --c-card: rgba(255, 255, 255, 0.4);
+      --c-border: rgba(0, 0, 0, 0.1);
+      --c-text: #000000;
+      --c-muted: rgba(0, 0, 0, 0.7);
+      --c-purple: #8000ff;
+      --c-violet: #ff0099;
+      --c-pink: #ff0000;
+      --c-orange: #ff0000;
+      --c-cyan: #00aaff;
+      --grad-main: linear-gradient(to right, #0091ff, #00aaff, #8000ff, #ff0099, #ff0000);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+      --radius: 2rem;
+      --maxw: min(1140px, calc(100% - 6.25rem));
+      --page-gutter: 3.125rem;
     }
     * { box-sizing: border-box; }
     html {
-      scroll-behavior: smooth;
+      /* Clarix fluid scale: 16px at 1920px, clamps at 12px */
+      font-size: max(12px, 0.833333vw);
       min-height: 100%;
       background: var(--c-bg);
     }
     body {
       margin: 0;
-      min-height: 100vh;
+      position: relative;
+      /* Trilha mais curta que o Clarix puro: evita “vazio” longo no fim antes do humanóide */
+      min-height: 1200vh;
+      height: 1200vh;
       color: var(--c-text);
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      font-family: 'Sarabun', sans-serif;
       background: var(--c-bg);
       overflow-x: hidden;
       /* Frame + vinheta: moldura interna e ~10% mais escuro nas bordas */
@@ -61,8 +66,10 @@
     img { max-width: 100%; display: block; }
     .container { width: var(--maxw); margin: 0 auto; }
     .navbar {
-      position: sticky;
+      position: absolute;
       top: 0;
+      left: 0;
+      right: 0;
       z-index: 1000;
       overflow: visible;
       background: transparent;
@@ -73,10 +80,10 @@
         -webkit-backdrop-filter 0.35s ease;
     }
     .navbar.navbar--solid {
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--c-border);
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-bottom: 1px solid transparent;
     }
     .nav-outer {
       display: flex;
@@ -88,8 +95,9 @@
     .nav-lang-bar {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
+      justify-content: flex-start;
       gap: 10px;
+      perspective: 500px;
     }
     .nav-lang-btn {
       display: inline-flex;
@@ -108,15 +116,15 @@
     }
     .nav-lang-btn:hover {
       transform: scale(1.05);
-      border-color: rgba(108, 78, 248, 0.35);
+      border-color: rgba(0, 0, 0, 0.35);
     }
     .nav-lang-btn:focus-visible {
-      outline: 3px solid rgba(103, 212, 255, 0.55);
+      outline: 3px solid rgba(0, 0, 0, 0.35);
       outline-offset: 2px;
     }
     .nav-lang-btn.is-active {
-      border-color: var(--c-purple);
-      box-shadow: 0 0 16px rgba(108, 78, 248, 0.45), 0 0 28px rgba(169, 82, 255, 0.2);
+      border-color: #000;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
     }
     .nav-lang-flag {
       width: 32px;
@@ -125,19 +133,19 @@
       border-radius: 4px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
     }
-    .nav-wrap { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .nav-wrap { display: flex; align-items: flex-start; justify-content: flex-end; gap: 18px; }
     .brand {
       display: flex;
       align-items: center;
       gap: 12px;
-      font-weight: 800;
+      font-weight: 500;
       position: relative;
       z-index: 2;
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
     }
     .brand span {
-      font-family: Sora, Inter, system-ui, sans-serif;
-      font-weight: 700;
+      font-family: 'Sarabun', sans-serif;
+      font-weight: 500;
       letter-spacing: 0.01em;
     }
     .navbar.navbar--solid .brand { text-shadow: none; }
@@ -148,131 +156,12 @@
       flex-shrink: 0;
       min-width: 0;
     }
-    .nav-audio-player {
-      flex-shrink: 0;
-      position: relative;
-      overflow: visible;
-    }
-    .nav-audio-player audio {
-      display: none;
-    }
-    .nav-audio-btn {
-      position: relative;
-      z-index: 0;
-      width: 46px;
-      height: 46px;
-      padding: 0;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      overflow: visible;
-      display: grid;
-      place-items: center;
-      color: #fff;
-      background: linear-gradient(135deg, var(--c-purple) 0%, var(--c-violet) 38%, var(--c-pink) 68%, var(--c-orange) 100%);
-      background-size: 180% 180%;
-      box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.45) inset,
-        0 2px 12px rgba(108, 78, 248, 0.35),
-        0 0 28px rgba(169, 82, 255, 0.4),
-        0 0 48px rgba(103, 212, 255, 0.15);
-      transition: transform 0.22s ease, filter 0.22s ease, box-shadow 0.22s ease;
-      animation: navAudioGradientShift 5s ease-in-out infinite alternate;
-    }
-    .nav-audio-btn::before {
-      content: "";
-      position: absolute;
-      inset: -3px;
-      border-radius: 50%;
-      background: conic-gradient(
-        from 210deg,
-        var(--c-purple),
-        var(--c-cyan),
-        var(--c-pink),
-        var(--c-orange),
-        var(--c-violet),
-        var(--c-purple)
-      );
-      z-index: -1;
-      opacity: 0.75;
-      filter: blur(0.5px);
-      animation: navAudioOrbit 10s linear infinite;
-    }
-    .nav-audio-btn:hover {
-      transform: scale(1.06);
-      filter: brightness(1.12) saturate(1.08);
-      box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.55) inset,
-        0 4px 22px rgba(108, 78, 248, 0.5),
-        0 0 36px rgba(239, 100, 216, 0.45),
-        0 0 56px rgba(103, 212, 255, 0.22);
-    }
-    .nav-audio-btn:focus-visible {
-      outline: 3px solid rgba(103, 212, 255, 0.65);
-      outline-offset: 4px;
-    }
-    .nav-audio-btn svg {
-      width: 20px;
-      height: 20px;
-      fill: currentColor;
-      filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.35));
-    }
-    .nav-audio-btn .i-pause {
-      display: none;
-    }
-    .nav-audio-btn.is-playing .i-play {
-      display: none;
-    }
-    .nav-audio-btn.is-playing .i-pause {
-      display: block;
-    }
-    .nav-audio-btn.is-playing {
-      animation: navAudioGradientShift 3.5s ease-in-out infinite alternate, navAudioPlayingGlow 2.2s ease-in-out infinite;
-    }
-    .nav-audio-btn.is-playing::before {
-      animation: navAudioOrbit 6s linear infinite;
-      opacity: 0.95;
-    }
-    @keyframes navAudioGradientShift {
-      0% {
-        background-position: 0% 40%;
-      }
-      100% {
-        background-position: 100% 60%;
-      }
-    }
-    @keyframes navAudioOrbit {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-    @keyframes navAudioPlayingGlow {
-      0%,
-      100% {
-        box-shadow:
-          0 0 0 1px rgba(255, 255, 255, 0.5) inset,
-          0 2px 14px rgba(108, 78, 248, 0.45),
-          0 0 32px rgba(169, 82, 255, 0.5),
-          0 0 52px rgba(103, 212, 255, 0.2);
-      }
-      50% {
-        box-shadow:
-          0 0 0 1px rgba(255, 255, 255, 0.6) inset,
-          0 4px 24px rgba(239, 100, 216, 0.55),
-          0 0 44px rgba(108, 78, 248, 0.55),
-          0 0 64px rgba(245, 162, 69, 0.18);
-      }
-    }
-    .navbar.navbar--solid .nav-audio-btn {
-      box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.5) inset,
-        0 2px 14px rgba(108, 78, 248, 0.32),
-        0 0 26px rgba(169, 82, 255, 0.35);
-    }
+    
+    
     .brand img {
-      width: calc(98px * 1.25);
-      height: auto;
-      max-height: calc(98px * 1.25);
+      width: auto;
+      height: 2rem;
+      max-height: none;
       object-fit: contain;
       object-position: left center;
       border-radius: 0;
@@ -281,56 +170,54 @@
       position: relative;
       z-index: 1;
     }
-    .nav-links { display: flex; align-items: center; gap: 8px; }
-    .nav-links a {
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-size: 0.92rem;
-      color: var(--c-muted);
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.75em;
+      font-family: 'Sarabun', sans-serif;
+      font-weight: 400;
     }
-    .navbar.navbar--solid .nav-links a { text-shadow: none; }
-    .nav-links a:hover { color: white; background: rgba(255,255,255,0.08); }
-    .nav-dropdown {
-      position: relative;
-    }
+    .nav-links > a,
     .nav-dropdown-toggle {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      margin: 0;
-      padding: 10px 14px;
+      gap: 0.4545em;
+      padding: 0;
       border: none;
-      border-radius: 999px;
+      border-radius: 0;
       background: transparent;
       font: inherit;
-      font-size: 0.92rem;
-      font-weight: 500;
-      color: var(--c-muted);
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
-      cursor: pointer;
-      transition: color 0.2s ease, background 0.2s ease;
-    }
-    .navbar.navbar--solid .nav-dropdown-toggle {
+      font-size: 1.1em;
+      font-weight: 400;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      color: #000;
       text-shadow: none;
+      cursor: pointer;
+      transition: transform 0.2s ease;
     }
+    .nav-links > a::after,
+    .nav-dropdown-toggle::after {
+      content: "↗";
+      font-size: 1.0909em;
+      font-weight: 400;
+      line-height: 1;
+      text-transform: none;
+    }
+    .navbar.navbar--solid .nav-links > a,
+    .navbar.navbar--solid .nav-dropdown-toggle { text-shadow: none; }
+    .nav-links > a:hover,
     .nav-dropdown-toggle:hover,
     .nav-dropdown.is-open .nav-dropdown-toggle {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.08);
+      color: #000;
+      background: transparent;
+      transform: translateX(-4px);
     }
-    .navbar.navbar--solid .nav-dropdown-toggle:hover,
-    .navbar.navbar--solid .nav-dropdown.is-open .nav-dropdown-toggle {
-      color: var(--c-text);
-      background: rgba(108, 78, 248, 0.1);
+    .nav-dropdown {
+      position: relative;
     }
-    .nav-dropdown-chevron {
-      width: 14px;
-      height: 14px;
-      flex-shrink: 0;
-      opacity: 0.85;
-      transition: transform 0.22s ease;
-    }
+    .nav-dropdown-chevron { display: none; }
     .nav-dropdown:hover .nav-dropdown-chevron,
     .nav-dropdown.is-open .nav-dropdown-chevron {
       transform: rotate(180deg);
@@ -338,7 +225,9 @@
     .nav-dropdown-menu {
       position: absolute;
       top: calc(100% + 6px);
-      left: 0;
+      right: 0;
+      left: auto;
+      text-align: right;
       min-width: min(260px, calc(100vw - 2rem));
       margin: 0;
       padding: 8px;
@@ -366,7 +255,7 @@
       padding: 10px 14px;
       border-radius: 10px;
       font-size: 0.9rem;
-      font-weight: 600;
+      font-weight: 400;
       color: var(--c-text);
       text-decoration: none;
       text-shadow: none;
@@ -447,67 +336,140 @@
     }
     .servicos-linhas-grid {
       list-style: none;
-      margin: 0 0 28px;
+      margin: 0 0 2rem;
       padding: 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
-      gap: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: stretch;
+      gap: 0.65rem 0.7rem;
+    }
+    .servicos-linhas-grid > li {
+      flex: 0 0 auto;
     }
     .servicos-linhas-grid h3 {
       margin: 0;
       font-size: 0.88rem;
-      font-weight: 700;
-      line-height: 1.3;
+      font-weight: 400;
+      line-height: 1.2;
       scroll-margin-top: 92px;
-      padding: 12px 14px;
-      background: var(--c-card);
-      border: 1px solid var(--c-border);
-      border-radius: 12px;
-      color: var(--c-text);
+      padding: 0.72rem 1.25rem;
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 2.5rem;
+      color: #000;
+      white-space: nowrap;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
     .servicos-linha-link {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      min-height: 100%;
-      padding: 12px 14px;
+      justify-content: center;
+      height: 2.75rem;
+      padding: 0 1.25rem;
       font-size: 0.88rem;
-      font-weight: 700;
-      line-height: 1.3;
-      border-radius: 12px;
-      background: var(--c-card);
-      border: 1px solid var(--c-border);
-      color: var(--c-text);
+      font-weight: 400;
+      line-height: 1.2;
+      white-space: nowrap;
+      border-radius: 2.5rem;
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      color: #000;
       text-decoration: none;
       scroll-margin-top: 92px;
-      transition: background 0.2s ease, color 0.2s ease;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: background 0.2s ease, transform 0.2s ease;
     }
     .servicos-linha-link:hover {
-      background: rgba(108, 78, 248, 0.1);
-      color: var(--c-purple);
+      background: rgba(255, 255, 255, 0.7);
+      color: #000;
+      transform: translateY(-2px);
     }
     .services .card {
       scroll-margin-top: 92px;
     }
     .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      border: none; border-radius: 999px; cursor: pointer;
-      padding: 13px 22px; font-weight: 700; font-size: 0.98rem;
-      transition: .25s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      border: 1px solid #000;
+      border-radius: 2.5rem;
+      cursor: pointer;
+      padding: 0.875rem 2rem;
+      font-family: 'Sarabun', sans-serif;
+      font-weight: 400;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.1);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      color: #000;
+      transition: background 0.2s, transform 0.2s;
     }
-    .btn-main { background: var(--grad-main); color: white; box-shadow: var(--shadow); }
-    .btn-main:hover { transform: translateY(-2px); filter: brightness(1.06); }
-    .btn-wa {
-      background: #25d366;
-      color: #fff;
-      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.28);
+    .btn:hover { background: rgba(255, 255, 255, 0.3); transform: translateY(-2px); }
+    .btn-main {
+      background: rgba(255, 255, 255, 0.1);
+      color: #000;
+      box-shadow: none;
+      filter: none;
     }
-    .btn-wa:hover {
+    .btn-main:hover {
+      background: rgba(255, 255, 255, 0.3);
       transform: translateY(-2px);
-      filter: brightness(1.05);
-      background: #20bd5a;
+      filter: none;
     }
-    .card .btn-wa { width: 100%; margin-top: 16px; }
-    .nav-links .btn-main { color: #fff; }
+    .hero-actions {
+      font-size: 1rem;
+    }
+    /* Clarix model button (DOLOR AMET / .hi-btn) */
+    .hi-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      align-self: flex-start;
+      padding: 0.875rem 3rem;
+      border: 1px solid #000;
+      border-radius: 2.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      color: #000;
+      box-shadow: none;
+      text-decoration: none;
+      font-family: 'Sarabun', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 400;
+      line-height: normal;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      filter: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .hi-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      color: #000;
+      box-shadow: none;
+      filter: none;
+      transform: translateY(-2px);
+    }
+    .services-wa-cta {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    .services-wa-cta .hi-btn {
+      align-self: center;
+      padding: 1.05rem 3.6rem;
+      font-size: 1.05rem;
+      letter-spacing: 1.2px;
+      border-radius: 2.75rem;
+    }
+    .nav-links .btn-main { color: #000; }
     .btn-nav-pulse {
       animation: navCtaPulse 2s ease-out infinite;
     }
@@ -516,19 +478,24 @@
     }
     @keyframes navCtaPulse {
       0% {
-        box-shadow: 0 0 0 0 rgba(108, 78, 248, 0.48), 0 20px 45px rgba(90, 60, 170, 0.35);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
       }
       65% {
-        box-shadow: 0 0 0 14px rgba(108, 78, 248, 0), 0 20px 45px rgba(90, 60, 170, 0.35);
+        box-shadow: 0 0 0 12px rgba(0, 0, 0, 0);
       }
       100% {
-        box-shadow: 0 0 0 0 rgba(108, 78, 248, 0), 0 20px 45px rgba(90, 60, 170, 0.35);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
       }
     }
-    .btn-ghost { background: transparent; border: 1px solid var(--c-border); color: var(--c-text); }
-    .btn-ghost:hover { background: rgba(255,255,255,0.08); }
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #000;
+      color: #000;
+    }
+    .btn-ghost:hover { background: rgba(255, 255, 255, 0.3); }
     .hero {
-      padding: 76px 0 48px;
+      padding: 0;
+      min-height: 100vh;
       position: relative;
       overflow: hidden;
       /* sem isolation: isolate → mix-blend-mode da logo mistura com o fundo real */
@@ -569,15 +536,51 @@
         filter: blur(0);
       }
     }
-    .hero .container {
-      position: relative;
+    .hero .container.hero-grid {
+      position: static;
+      max-width: none;
+      width: 100%;
+      margin: 0;
+      padding: 0;
       z-index: 2;
     }
     .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
-      gap: clamp(20px, 4vw, 40px);
-      align-items: center;
+      display: block;
+    }
+    /* Bloco inteiro (logo + títulos + lead + CTA) mais baixo, junto no peito do humanóide */
+    .hero-copy {
+      position: absolute;
+      top: 58%;
+      left: 3.125rem;
+      transform: translateY(-50%);
+      z-index: 2;
+      /* Largo o bastante p/ GESTÃO DE REDES SOCIAIS e demais frases */
+      max-width: min(78rem, calc(100vw - 3.5rem));
+      pointer-events: none;
+    }
+    .hero-under-title {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.85rem;
+      margin-top: 0.45rem;
+      max-width: min(52rem, 100%);
+      pointer-events: auto;
+      white-space: normal;
+    }
+    .hero-under-title .lead {
+      margin: 0;
+      max-width: none;
+      font-size: 1.18rem;
+      line-height: 1.45;
+      color: var(--c-muted);
+      white-space: nowrap;
+    }
+    .hero-under-title .hero-actions {
+      margin-top: 0;
+    }
+    .hero-under-title .hi-btn {
+      pointer-events: auto;
     }
     .hero-aside {
       position: relative;
@@ -635,39 +638,212 @@
       box-shadow: 0 24px 50px rgba(12, 11, 31, 0.5);
     }
     .badge {
-      display: inline-block; padding: 8px 14px; border-radius: 999px;
-      background: rgba(103, 212, 255, 0.14); border: 1px solid rgba(103, 212, 255, 0.5);
-      font-size: .82rem; font-weight: 700;
+      display: inline-block;
+      padding: 0;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      font-family: 'Sarabun', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      color: #000;
     }
-    h1 {
-      margin: 16px 0 12px;
-      font-size: clamp(2rem, 4.7vw, 3.7rem);
+    .clients-line {
+      height: 1px;
+      width: 100%;
+      max-width: 100%;
+      margin: 1rem 0 2rem;
+      background: linear-gradient(to right, #0091ff, #00aaff, #8000ff, #ff0099, #ff0000);
+      border: none;
+    }
+    .clients-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      margin-top: 0;
+      /* Marquee sai antes do título chegar na altura do ombro */
+      margin-bottom: 24rem;
+      pointer-events: none;
+    }
+    .clients-subtitle {
+      font-family: 'Sarabun', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      padding-left: 3.125rem;
+      margin: 0 0 1rem;
+      color: #000;
+    }
+    .clients-container > .clients-line {
+      height: 1px;
+      margin: 0 3.125rem 3rem;
+      width: auto;
+      max-width: none;
+      background: linear-gradient(to right, #0091ff, #00aaff, #8000ff, #ff0099, #ff0000);
+    }
+    .marquee-container {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      pointer-events: auto;
+    }
+    .marquee-content {
+      display: inline-flex;
+      align-items: center;
+      gap: 6rem;
+      padding-right: 6rem;
+      animation: clientsMarquee 28s linear infinite;
+      will-change: transform;
+    }
+    @keyframes clientsMarquee {
+      0% { transform: translateX(-50%); }
+      100% { transform: translateX(0); }
+    }
+    .marquee-logo {
+      height: 3.75rem;
+      width: auto;
+      object-fit: contain;
+      flex-shrink: 0;
+      opacity: 0.8;
+      filter: grayscale(100%);
+      transition: filter 0.35s ease, opacity 0.35s ease, transform 0.35s ease;
+      cursor: pointer;
+      pointer-events: auto;
+    }
+    .marquee-logo:hover {
+      filter: grayscale(0%);
+      opacity: 1;
+      transform: scale(1.06);
+    }
+    @media (max-width: 700px) {
+      .clients-subtitle { padding-left: 1.25rem; }
+      .clients-container > .clients-line { margin-left: 1.25rem; margin-right: 1.25rem; }
+      .marquee-logo { height: 2.75rem; }
+      .marquee-content { gap: 3.5rem; padding-right: 3.5rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-content { animation: none; transform: none; }
+    }
+    .hero-brand-mark-wrap {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      margin: 0 0 0.65rem;
+      overflow: hidden;
+      padding-top: 0.35em;
+      margin-top: -0.35em;
+      padding-bottom: 1.2em;
+      margin-bottom: calc(-1.2em + 0.65rem);
+      perspective: 500px;
+    }
+    .hero-brand-mark {
+      display: block;
+      width: auto;
+      height: clamp(2.4rem, 4.2vw, 3.75rem);
+      margin: 0;
+      object-fit: contain;
+      object-position: left center;
+    }
+    /* Revelação 3D igual às letras do título (logo + bandeiras) */
+    .soft-reveal {
+      transform: translateY(110%) translateZ(-60px) rotateX(-65deg);
+      transform-origin: bottom center;
+      filter: blur(14px);
+      opacity: 0;
+      will-change: transform, filter, opacity;
+      transition: transform 1.6s cubic-bezier(0.2, 0.8, 0.2, 1), filter 1.6s ease, opacity 1.2s ease;
+    }
+    .soft-reveal.is-revealed {
+      transform: translateY(0) translateZ(0) rotateX(0deg);
+      filter: blur(0);
+      opacity: 1;
+    }
+    #animated-hero-title {
+      font-family: 'Sarabun', sans-serif;
+      font-weight: 200;
+      margin: 0;
+      font-size: max(2.5rem, 7vw);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: #000;
+      max-width: none;
+      white-space: nowrap;
+    }
+    h1 .hero-title-lead {
+      display: block;
+      white-space: nowrap;
+      font-size: 0.42em;
+      font-weight: 200;
+      letter-spacing: -0.02em;
       line-height: 1.05;
-      max-width: 16ch;
+      margin-bottom: 0;
     }
     .hero-slide {
       display: block;
-      margin-top: 0.18em;
-      height: 1.08em;
+      margin-top: 0.02em;
+      /* Menor que o h1 base para a frase mais longa caber sem corte */
+      font-size: clamp(1.45rem, 5.1vw, 5rem);
+      width: max-content;
+      max-width: 100%;
+      /* Slot alto o bastante p/ o bold; compacto p/ não abrir buraco visual */
+      height: 1.35em;
       overflow: hidden;
-      line-height: 1.08;
+      line-height: 1.35;
+    }
+    .hero-slide.is-revealing {
+      /* Folga vertical p/ a revelação 3D sem expor as outras palavras do track */
+      clip-path: inset(-0.85em -0.15em -0.85em -0.15em);
+      overflow: hidden;
     }
     .hero-slide-track {
       display: flex;
       flex-direction: column;
+      width: max-content;
+      min-width: 100%;
       animation: heroTextSlide 15s ease-in-out infinite;
+      animation-play-state: paused;
       will-change: transform;
     }
-    .hero-slide-track span {
-      display: block;
-      min-height: 1.08em;
+    .hero-slide.is-ready .hero-slide-track {
+      animation-play-state: running;
+    }
+    .hero-slide-track > .hero-slide-word {
+      display: flex;
+      align-items: center;
+      flex: 0 0 1.35em;
+      min-height: 1.35em;
+      height: 1.35em;
+      width: max-content;
+      min-width: 100%;
+      line-height: 1;
+      white-space: nowrap;
+      box-sizing: border-box;
+      overflow: visible;
+      padding: 0.06em 0.04em 0.1em 0;
     }
     .hero-slide-word {
-      background: var(--grad-main);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+      background: none;
+      color: #000;
+      -webkit-text-fill-color: #000;
+      letter-spacing: -0.03em;
+      word-spacing: 0.08em;
+    }
+    .hero-slide-word .char-mask {
+      /* Máscara um pouco mais folgada no bold grande */
+      padding-top: 0.28em;
+      margin-top: -0.28em;
+      padding-bottom: 1.35em;
+      margin-bottom: -1.35em;
+    }
+    .hero-slide-word .hero-char {
+      font-weight: 700;
+    }
+    .char-space {
+      display: inline-block;
+      width: 0.28em;
     }
     @keyframes heroTextSlide {
       0%, 14% { transform: translateY(0%); }
@@ -678,7 +854,20 @@
       85%, 99% { transform: translateY(-83.333%); }
       100% { transform: translateY(0%); }
     }
-    .gradient { background: var(--grad-main); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .gradient {
+      background: var(--grad-main);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+    .gradient .hero-char {
+      background: var(--grad-main);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
     .no-break { white-space: nowrap; }
     .lead { color: var(--c-muted); font-size: 1.05rem; max-width: 56ch; }
     .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
@@ -702,63 +891,95 @@
       padding: 24px;
     }
     .hero-card h3 { margin: 0 0 4px; font-size: 1.12rem; }
-    .kpis { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; margin-top: 16px; }
-    .hero-kpis {
-      margin-top: 28px;
-      max-width: min(100%, 440px);
+    
+    section { padding: 4.5rem 0; position: relative; z-index: 2; }
+    .section-head {
+      text-align: left;
+      margin-bottom: 2.5rem;
+      max-width: 48rem;
     }
-    .kpi {
-      border: 1px solid var(--c-border);
-      background: rgba(255,255,255,0.92);
-      border-radius: 14px;
-      padding: 14px;
-      text-align: center;
+    .section-head .badge + h2,
+    .section-head .badge + .clients-line {
+      margin-top: 0;
     }
-    .hero-kpis .kpi {
-      padding: 16px 12px;
-      box-shadow: 0 8px 24px rgba(90, 60, 170, 0.08);
-    }
-    .kpi b,
-    .kpi-value {
+    .section-head .badge {
       display: block;
-      font-family: Sora, Inter, system-ui, sans-serif;
-      font-size: clamp(1.75rem, 4vw, 2.15rem);
-      font-weight: 800;
-      font-variant-numeric: tabular-nums;
+      margin-bottom: 0;
+    }
+    .section-head .badge::after {
+      content: "";
+      display: block;
+      height: 1px;
+      width: min(100%, 40rem);
+      margin: 1rem 0 1.75rem;
+      background: linear-gradient(to right, #0091ff, #00aaff, #8000ff, #ff0099, #ff0000);
+    }
+    .section-head h2 {
+      font-family: 'Sarabun', sans-serif;
+      font-weight: 200;
+      margin: 0 0 1rem;
+      font-size: max(2rem, 3.2vw);
+      letter-spacing: -0.02em;
       line-height: 1.1;
-      background: var(--grad-main);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      -webkit-text-fill-color: transparent;
+      color: #000;
+      white-space: nowrap; /* quebra só no <br> — 1ª linha inteira */
     }
-    .kpi span { font-size: .82rem; color: var(--c-muted); font-weight: 600; }
-    section { padding: 72px 0; }
-    .section-head { text-align: center; margin-bottom: 34px; }
-    .section-head h2 { margin: 10px 0 10px; font-size: clamp(1.6rem, 4vw, 2.6rem); }
-    .section-head p { margin: 0 auto; max-width: 72ch; color: var(--c-muted); }
-    .services { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+    .section-head h2 strong {
+      font-weight: 700;
+    }
+    #servicos .section-head p {
+      max-width: none;
+    }
+    #servicos .section-head .serv-lead-line {
+      white-space: nowrap;
+      display: inline-block;
+    }
+    .section-head p {
+      margin: 0;
+      max-width: 40rem;
+      color: var(--c-muted);
+      font-size: 1.0625rem;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+    .services { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1.25rem; }
     .card {
-      border: 1px solid var(--c-border);
-      background: var(--c-card);
-      border-radius: var(--radius);
-      padding: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.4);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      border-radius: 2rem;
+      padding: 1.5rem 1.75rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+      color: #000;
     }
-    .card .icon { font-size: 1.8rem; margin-bottom: 10px; }
-    .card h3 { margin: 0 0 10px; }
-    .card p { margin: 0 0 12px; color: var(--c-muted); font-size: .95rem; }
-    .card ul { margin: 0; padding-left: 18px; color: #eee7ff; font-size: .9rem; }
+    .card .icon { font-size: 1.5rem; margin-bottom: 0.75rem; opacity: 0.85; }
+    .card h3,
+    .card h3.animated-title {
+      font-family: 'Sarabun', sans-serif;
+      font-weight: 400;
+      margin: 0 0 0.75rem;
+      font-size: 1.25rem;
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+      color: #000;
+      white-space: normal;
+    }
+    .card p { margin: 0 0 0.85rem; color: var(--c-muted); font-size: 1.0625rem; line-height: 1.5; }
+    .card ul { margin: 0; padding-left: 1.15rem; color: rgba(0, 0, 0, 0.75); font-size: 0.95rem; line-height: 1.55; }
     .garantia-selo {
       display: grid;
       grid-template-columns: auto 1fr;
-      gap: 16px 18px;
+      gap: 1rem 1.15rem;
       align-items: start;
-      margin: 0 0 24px;
-      padding: 18px 20px;
-      border-radius: var(--radius);
-      border: 1px solid rgba(34, 197, 94, 0.35);
-      background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(108, 78, 248, 0.06));
-      box-shadow: 0 10px 28px rgba(34, 197, 94, 0.1);
+      margin: 0 0 1.5rem;
+      padding: 1.25rem 1.5rem;
+      border-radius: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.45);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
       scroll-margin-top: 92px;
     }
     .garantia-selo-mark {
@@ -770,7 +991,7 @@
       background: rgba(34, 197, 94, 0.14);
       border: 1px solid rgba(34, 197, 94, 0.35);
       font-size: 1.5rem;
-      font-weight: 800;
+      font-weight: 500;
       color: #16a34a;
       line-height: 1;
     }
@@ -782,7 +1003,7 @@
       background: rgba(34, 197, 94, 0.12);
       border: 1px solid rgba(34, 197, 94, 0.3);
       font-size: 0.72rem;
-      font-weight: 800;
+      font-weight: 500;
       letter-spacing: 0.04em;
       text-transform: uppercase;
       color: #15803d;
@@ -790,7 +1011,7 @@
     .garantia-selo-title {
       display: block;
       margin: 0 0 6px;
-      font-family: Sora, Inter, system-ui, sans-serif;
+      font-family: 'Sarabun', sans-serif;
       font-size: 1.12rem;
       color: var(--c-text);
     }
@@ -808,103 +1029,356 @@
       line-height: 1.55;
     }
     .garantia-selo-list li + li { margin-top: 4px; }
+    .card .garantia-inline,
     .garantia-inline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      max-width: 100%;
       margin: 0 0 12px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      background: rgba(34, 197, 94, 0.08);
-      border: 1px solid rgba(34, 197, 94, 0.22);
+      padding: 0.7rem 1.15rem;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.28);
       font-size: 0.84rem;
+      font-weight: 400;
       color: var(--c-muted);
-      line-height: 1.45;
+      line-height: 1;
+      white-space: nowrap;
+      box-sizing: border-box;
+      text-align: center;
     }
-    .garantia-inline strong { color: #15803d; }
-    /* Segunda dobra: fundo com imagem + animação suave (Ken Burns) */
-    #diferenciais {
-      position: relative;
-      overflow: hidden;
-      isolation: isolate;
+    .card .garantia-inline strong,
+    .garantia-inline strong {
+      color: #15803d;
+      font-weight: 700;
+      line-height: 1;
     }
-    #diferenciais::before {
-      content: "";
+    /* Dentro de .home-end-flow — sem empurrar com 100vh (já posicionado no scroll) */
+    #servicos {
+      margin-top: 0;
+      padding-top: 2.5rem;
+    }
+    /* Na frente do humanóide (canvas z=3); glass continua em z=10 */
+    .home-end-flow {
       position: absolute;
-      inset: -7%;
-      z-index: 0;
+      top: calc(100vh + 34.375rem + 95rem + 250vh);
+      left: 0;
+      width: 100%;
+      z-index: 5;
+    }
+    /* Mesmo intervalo entre O que entregamos → Para quem é → Investimento */
+    #para-quem {
+      margin-top: 18vh;
+      padding-top: 2.5rem;
+    }
+    .home-end-flow #planos {
+      margin-top: 18vh;
+      padding-top: 3rem;
+    }
+    /* Phase 5 — mesma tipografia / posição do “Nemo enim ipsam…” (ao aparecer a logo) */
+    .phase5-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 4;
       pointer-events: none;
-      background: url("assets/fundo-daat.png") center center / cover no-repeat;
-      animation: diferenciaisBgDrift 38s ease-in-out infinite alternate;
-      will-change: transform;
+      opacity: 0;
     }
-    @keyframes diferenciaisBgDrift {
-      0% {
-        transform: scale(1) translate(0, 0);
-      }
-      100% {
-        transform: scale(1.12) translate(-2.2%, -1.8%);
+    .feature-title {
+      font-family: 'Sarabun', sans-serif;
+      font-weight: 200;
+      font-size: max(2.625rem, 5.5vw);
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      color: #000;
+      margin: 0;
+      line-height: 1.1;
+    }
+    .feature-title .phase5-em {
+      font-weight: 400;
+    }
+    /* Centralizada abaixo da logo DAAT (phase5) */
+    .phase5-title-left {
+      position: absolute;
+      top: 62%;
+      left: 50%;
+      right: auto;
+      bottom: auto;
+      transform: translate(-50%, 0);
+      text-align: center;
+      margin: 0;
+      width: max-content;
+      max-width: calc(100% - 3rem);
+    }
+    @media (max-width: 900px) {
+      .phase5-title-left {
+        white-space: normal;
+        font-size: max(1.65rem, 5.5vw);
+        top: 64%;
       }
     }
-    #diferenciais::after {
+    @media (max-width: 600px) {
+      .feature-title { white-space: normal; }
+      .phase5-title-left {
+        top: 66%;
+        max-width: calc(100% - 2.5rem);
+        font-size: max(1.35rem, 5.2vw);
+      }
+    }
+
+    /* Phase 6 — mesma tipografia / posição / efeito do “Ut enim ad minim…” */
+    .phase6-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .phase6-title {
+      position: absolute;
+      top: 30vh;
+      transform: translateY(-50%);
+      left: 0;
+      width: 100%;
+      font-family: 'Sarabun', sans-serif;
+      font-weight: 200;
+      /* Mesmo tamanho do Clarix (2.5rem @ 16px = 40px), sem herdar rem fluido */
+      font-size: max(40px, 7vw);
+      color: #000;
+      margin: 0;
+      line-height: 1.0;
+      text-align: center;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .phase6-title .phase6-em {
+      font-weight: 400;
+    }
+    .phase6-title .phase6-light {
+      font-weight: 200;
+    }
+    @media (max-width: 600px) {
+      .phase6-title { white-space: normal; padding: 0 1.25rem; box-sizing: border-box; }
+    }
+
+    /* Quadro glass — Vamos conversar (versão mais atrativa) */
+    .glass-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(246, 250, 254, 0.22);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border-top: 1px solid rgba(255, 255, 255, 0.35);
+      z-index: 10;
+      transform: translateY(100vh);
+      pointer-events: none;
+    }
+    .glass-gradient-wrapper {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: min(1080px, calc(100% - 5rem));
+      height: auto;
+      max-height: calc(100% - 5rem);
+      min-height: min(640px, calc(100% - 5rem));
+      transform: translate(-50%, -50%) scale(0.65);
+      border-radius: 28px;
+      overflow: hidden;
+      pointer-events: auto;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      box-shadow:
+        0 30px 90px rgba(60, 40, 140, 0.18),
+        0 0 0 1px rgba(255, 255, 255, 0.25) inset;
+    }
+    .glass-gradient-img {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 1;
+      opacity: 0.72;
+      filter: saturate(1.15) contrast(1.05);
+    }
+    .glass-gradient-wrapper::after {
       content: "";
       position: absolute;
       inset: 0;
       z-index: 1;
       pointer-events: none;
-      background: linear-gradient(
-        155deg,
-        rgba(255, 255, 255, 0.92) 0%,
-        rgba(255, 255, 255, 0.8) 42%,
-        rgba(246, 247, 251, 0.88) 100%
-      );
+      background:
+        radial-gradient(ellipse 70% 55% at 15% 10%, rgba(255, 255, 255, 0.55), transparent 60%),
+        radial-gradient(ellipse 55% 45% at 90% 85%, rgba(128, 0, 255, 0.12), transparent 55%);
     }
-    #diferenciais > .container {
+    .gradient-content {
       position: relative;
       z-index: 2;
+      padding: 2.35rem 2.5rem 1.75rem;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 1.35rem;
+      color: #000;
+      font-family: 'Sarabun', sans-serif;
+      overflow: auto;
+      max-height: calc(100vh - 5rem);
     }
-    #diferenciais .card {
-      background: rgba(255, 255, 255, 0.78);
-      -webkit-backdrop-filter: blur(12px) saturate(1.15);
-      backdrop-filter: blur(12px) saturate(1.15);
-      border-color: rgba(17, 24, 39, 0.12);
-      box-shadow: 0 16px 48px rgba(17, 24, 39, 0.08);
+    .contato-glass-head {
+      flex: 0 0 auto;
+      max-width: 40rem;
     }
-    #diferenciais .card ul,
-    #diferenciais .card li {
-      color: var(--c-text);
+    .contato-glass-badge {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(0, 0, 0, 0.55);
+      margin: 0 0 0.85rem;
     }
-    #diferenciais .card strong {
-      color: var(--c-text);
+    .contato-glass-badge::after {
+      content: "";
+      display: block;
+      height: 2px;
+      width: min(14rem, 55vw);
+      margin-top: 0.7rem;
+      border-radius: 2px;
+      background: linear-gradient(to right, #0091ff, #00aaff, #8000ff, #ff0099, #ff0000);
+    }
+    .contato-glass-title {
+      font-size: clamp(1.35rem, 2.6vw, 2.35rem);
+      font-weight: 200;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: #000;
+      margin: 0 0 0.65rem;
+      white-space: nowrap;
+    }
+    .contato-glass-title strong {
       font-weight: 700;
     }
-    #funil .section-head h2 .funnel-callout {
-      display: block;
-      margin-top: 6px;
-      font-size: clamp(1rem, 3.2vw, 1.35rem);
-      font-weight: 800;
-      color: var(--c-text);
-    }
-    #funil .card {
-      max-width: 640px;
-      margin-inline: auto;
-    }
-    #funil .funnel-steps {
+    .contato-glass-lead {
       margin: 0;
-      padding-left: 1.35rem;
-      color: var(--c-text);
-      font-size: 1rem;
-      line-height: 1.55;
+      font-size: 1.02rem;
+      line-height: 1.5;
+      color: rgba(0, 0, 0, 0.62);
+      max-width: 34rem;
     }
-    #funil .funnel-steps li {
-      margin-bottom: 12px;
+    .glass-container .form-grid {
+      margin-top: 0.15rem;
+      max-width: none;
+      width: 100%;
+      padding: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-radius: 0;
+      flex: 0 0 auto;
+      align-content: start;
+      gap: 0.75rem;
+    }
+    .glass-container .form-grid input,
+    .glass-container .form-grid select,
+    .glass-container .form-grid textarea {
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 6px 20px rgba(40, 30, 90, 0.06);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    .glass-container .form-grid input:focus,
+    .glass-container .form-grid select:focus,
+    .glass-container .form-grid textarea:focus {
+      background: rgba(255, 255, 255, 0.92);
+      border-color: rgba(128, 0, 255, 0.45);
+      box-shadow: 0 0 0 3px rgba(128, 0, 255, 0.12), 0 8px 24px rgba(40, 30, 90, 0.08);
+    }
+    .glass-container .form-grid textarea { min-height: 5.25rem; }
+    .glass-container .form-grid .btn-main {
+      margin-top: 0.35rem;
+      min-height: 3.1rem;
+      padding: 0.95rem 2.2rem;
+      border: none;
+      color: #fff;
+      background: linear-gradient(100deg, #0091ff, #8000ff 45%, #ff0099);
+      box-shadow: 0 12px 28px rgba(128, 0, 255, 0.28);
+      letter-spacing: 0.06em;
+    }
+    .glass-container .form-grid .btn-main:hover {
+      background: linear-gradient(100deg, #00aaff, #8000ff 40%, #ff0099);
+      transform: translateY(-2px);
+      box-shadow: 0 16px 34px rgba(128, 0, 255, 0.34);
+      filter: none;
+    }
+    .glass-container .contato-glass-foot {
+      margin-top: 0.15rem;
+    }
+    .glass-container .notice,
+    .glass-container .form-status {
+      margin-top: 0.35rem;
+      max-width: 40rem;
+      font-size: 0.8rem;
+      line-height: 1.45;
+      color: rgba(0, 0, 0, 0.5);
+    }
+    @media (max-width: 900px) {
+      .glass-gradient-wrapper {
+        width: calc(100% - 1.5rem);
+        min-height: 0;
+        max-height: calc(100% - 1.5rem);
+        border-radius: 1.35rem;
+      }
+      .gradient-content { padding: 1.35rem 1.15rem 1.15rem; gap: 1rem; }
+      .glass-container .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .contato-glass-title {
+        white-space: nowrap;
+        font-size: clamp(1.05rem, 4.2vw, 1.55rem);
+      }
     }
     .audience {
       display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px;
     }
     .process { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; }
-    .step { background: var(--c-card); border: 1px solid var(--c-border); border-radius: 16px; padding: 16px; }
+    .step {
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 2rem;
+      padding: 1.25rem 1.35rem;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+      color: #000;
+    }
+    .step h3 { font-weight: 400; margin: 0 0 0.5rem; color: #000; }
+    .step p { margin: 0; color: var(--c-muted); font-size: 0.95rem; line-height: 1.5; }
     .step b {
-      width: 34px; height: 34px; border-radius: 50%;
-      display: grid; place-items: center; margin-bottom: 8px;
-      background: var(--grad-main);
+      width: 2.125rem;
+      height: 2.125rem;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin-bottom: 0.75rem;
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      color: #000;
+      font-weight: 400;
     }
     .depo { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
     .depo blockquote { margin: 0 0 10px; color: #f4f0ff; }
@@ -966,14 +1440,14 @@
     }
     /* Mini case Gestão Completa */
     .case-full {
-      margin-top: 36px;
-      padding: clamp(20px, 4vw, 28px);
-      border-radius: calc(var(--radius) + 2px);
-      border: 1px solid rgba(108, 78, 248, 0.28);
-      background:
-        linear-gradient(160deg, rgba(108, 78, 248, 0.07), rgba(239, 100, 216, 0.04)),
-        #fff;
-      box-shadow: 0 20px 48px rgba(90, 60, 170, 0.12);
+      margin-top: 2.25rem;
+      padding: clamp(1.25rem, 4vw, 1.75rem);
+      border-radius: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.4);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
     }
     .case-full-header { margin-bottom: 22px; }
     .case-full-header h3 {
@@ -995,9 +1469,9 @@
       margin-bottom: 20px;
     }
     .case-pillar {
-      border: 1px solid var(--c-border);
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 1.5rem;
+      background: rgba(255, 255, 255, 0.45);
       overflow: hidden;
     }
     .case-pillar-preview {
@@ -1007,7 +1481,7 @@
     .case-preview-site {
       height: 100%;
       padding: 12px;
-      background: linear-gradient(145deg, #fdf4ff, #fff 40%, #f5f3ff);
+      background: linear-gradient(145deg, #f8f8f8, #fff 40%, #f0f4ff);
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -1015,20 +1489,20 @@
     .case-preview-site-bar {
       height: 8px;
       border-radius: 999px;
-      background: linear-gradient(90deg, var(--c-purple), var(--c-pink));
-      opacity: 0.35;
+      background: var(--grad-main);
+      opacity: 0.45;
     }
     .case-preview-site-hero {
       flex: 1;
       border-radius: 10px;
       padding: 10px;
-      background: linear-gradient(145deg, #6c4ef8, #ef64d8);
+      background: linear-gradient(145deg, #111, #333);
       color: #fff;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       font-size: 0.72rem;
-      font-weight: 700;
+      font-weight: 500;
       line-height: 1.35;
     }
     .case-preview-site-cta {
@@ -1036,10 +1510,10 @@
       align-self: flex-start;
       padding: 4px 8px;
       border-radius: 999px;
-      background: #fff;
-      color: var(--c-purple);
+      background: rgba(255, 255, 255, 0.4);
+      color: #000;
       font-size: 0.62rem;
-      font-weight: 800;
+      font-weight: 500;
     }
     .case-preview-ads {
       height: 100%;
@@ -1067,12 +1541,12 @@
     .case-preview-ads-row em {
       font-style: normal;
       color: #4ade80;
-      font-weight: 800;
+      font-weight: 500;
     }
     .case-preview-social {
       height: 100%;
       padding: 10px;
-      background: #fafafa;
+      background: rgba(255, 255, 255, 0.4);
       display: grid;
       gap: 8px;
       align-content: center;
@@ -1081,12 +1555,12 @@
       border-radius: 10px;
       overflow: hidden;
       border: 1px solid rgba(17, 24, 39, 0.08);
-      background: #fff;
+      background: rgba(255, 255, 255, 0.4);
     }
     .case-preview-social-card div {
       padding: 8px 10px;
       font-size: 0.62rem;
-      font-weight: 700;
+      font-weight: 500;
       line-height: 1.3;
       color: #fff;
     }
@@ -1101,7 +1575,7 @@
       display: inline-block;
       margin-bottom: 6px;
       font-size: 0.68rem;
-      font-weight: 800;
+      font-weight: 500;
       letter-spacing: 0.05em;
       text-transform: uppercase;
       color: var(--c-purple);
@@ -1125,16 +1599,16 @@
     }
     .case-full-kpi {
       padding: 12px;
-      border-radius: 12px;
+      border-radius: 1.25rem;
       text-align: center;
-      background: rgba(108, 78, 248, 0.06);
-      border: 1px solid rgba(108, 78, 248, 0.14);
+      background: rgba(255, 255, 255, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.5);
     }
     .case-full-kpi b {
       display: block;
-      font-family: Sora, Inter, system-ui, sans-serif;
+      font-family: 'Sarabun', sans-serif;
       font-size: 1.35rem;
-      font-weight: 800;
+      font-weight: 500;
       background: var(--grad-main);
       -webkit-background-clip: text;
       background-clip: text;
@@ -1143,7 +1617,7 @@
     }
     .case-full-kpi span {
       font-size: 0.78rem;
-      font-weight: 600;
+      font-weight: 400;
       color: var(--c-muted);
     }
     .case-full-foot {
@@ -1170,7 +1644,7 @@
       font-size: 0.86rem;
     }
     .case-full-foot .btn { flex-shrink: 0; }
-    #antes-depois { background: var(--c-surface); }
+    #antes-depois { background: transparent; }
     .ba-grid {
       display: grid;
       gap: 28px;
@@ -1178,7 +1652,7 @@
     .ba-case-title {
       margin: 0 0 12px;
       font-size: 1.05rem;
-      font-weight: 700;
+      font-weight: 500;
       color: var(--c-text);
       text-align: center;
     }
@@ -1223,7 +1697,7 @@
       padding: 14px;
       background: linear-gradient(180deg, #d8dce6 0%, #eef1f6 100%);
       color: #333;
-      font-family: Georgia, "Times New Roman", serif;
+      font-family: 'Sarabun', sans-serif;
       font-size: 11px;
       line-height: 1.35;
       overflow: hidden;
@@ -1235,7 +1709,7 @@
       margin-bottom: 10px;
       background: #003366;
       color: #fff;
-      font-family: Arial, sans-serif;
+      font-family: 'Sarabun', sans-serif;
       font-size: 9px;
     }
     .ba-mock-old h4 {
@@ -1247,7 +1721,7 @@
     .ba-mock-old-box {
       padding: 8px;
       border: 1px dashed #999;
-      background: #fff;
+      background: rgba(255, 255, 255, 0.4);
       margin-bottom: 8px;
     }
     .ba-handle {
@@ -1258,7 +1732,7 @@
       z-index: 3;
       width: 4px;
       transform: translateX(-50%);
-      background: #fff;
+      background: rgba(255, 255, 255, 0.4);
       box-shadow: 0 0 12px rgba(0, 0, 0, 0.35);
       pointer-events: none;
     }
@@ -1271,14 +1745,15 @@
       width: 36px;
       height: 36px;
       border-radius: 50%;
-      background: #fff;
-      color: var(--c-purple);
+      background: rgba(255, 255, 255, 0.4);
+      color: #000;
       font-size: 8px;
-      font-weight: 800;
+      font-weight: 500;
       letter-spacing: -1px;
       display: grid;
       place-items: center;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(0, 0, 0, 0.2);
     }
     .ba-range {
       position: absolute;
@@ -1296,7 +1771,7 @@
       padding: 10px 14px;
       background: rgba(255, 255, 255, 0.96);
       font-size: 0.78rem;
-      font-weight: 800;
+      font-weight: 500;
       letter-spacing: 0.06em;
       text-transform: uppercase;
     }
@@ -1317,7 +1792,7 @@
       border-radius: 14px;
       overflow: hidden;
       border: 1px solid var(--c-border);
-      background: #fff;
+      background: rgba(255, 255, 255, 0.4);
     }
     .ba-static-card img {
       width: 100%;
@@ -1328,26 +1803,26 @@
     .ba-static-card figcaption {
       padding: 10px 12px;
       font-size: 0.82rem;
-      font-weight: 700;
+      font-weight: 500;
       text-align: center;
     }
     .ba-static-card--before figcaption { color: #64748b; background: #f1f5f9; }
     .ba-static-card--after figcaption { color: #15803d; background: rgba(34, 197, 94, 0.08); }
-    /* Sites criados */
-    #sites-criados { background: var(--c-bg); }
     .sites-criados-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 20px;
+      gap: 1.25rem;
     }
     .site-showcase-card {
       display: flex;
       flex-direction: column;
-      border: 1px solid var(--c-border);
-      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 2rem;
       overflow: hidden;
-      background: #fff;
-      box-shadow: 0 16px 40px rgba(90, 60, 170, 0.1);
+      background: rgba(255, 255, 255, 0.4);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
     }
     .site-showcase-preview {
       display: block;
@@ -1392,7 +1867,7 @@
       font-style: normal;
       font-size: 0.68rem;
       color: rgba(255, 255, 255, 0.55);
-      font-family: ui-monospace, monospace;
+      font-family: 'Sarabun', sans-serif;
     }
     .site-mock-hero--chacara {
       flex: 1;
@@ -1415,7 +1890,7 @@
     .site-mock-hero--chacara strong {
       font-size: clamp(0.95rem, 2.2vw, 1.15rem);
       line-height: 1.35;
-      font-weight: 600;
+      font-weight: 400;
       max-width: 22ch;
     }
     .site-mock-hero--chacara span {
@@ -1431,14 +1906,15 @@
     }
     .site-showcase-tag {
       align-self: flex-start;
-      padding: 4px 10px;
-      border-radius: 999px;
+      padding: 0.3rem 0.75rem;
+      border-radius: 2.5rem;
       font-size: 0.72rem;
-      font-weight: 700;
+      font-weight: 400;
       letter-spacing: 0.04em;
       text-transform: uppercase;
-      color: var(--c-purple);
-      background: rgba(108, 78, 248, 0.1);
+      color: #000;
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(0, 0, 0, 0.15);
     }
     .site-showcase-body h3 {
       margin: 0;
@@ -1456,24 +1932,25 @@
       align-self: flex-start;
       margin-top: 4px;
       font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--c-purple);
+      font-weight: 500;
+      color: #000;
       text-decoration: none;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.35);
     }
     .site-showcase-link:hover {
-      text-decoration: underline;
+      border-bottom-color: #000;
     }
     .ba-case-visit {
       display: inline-block;
       margin-top: 10px;
       font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--c-purple);
+      font-weight: 500;
+      color: #000;
       text-decoration: none;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.35);
     }
     .ba-case-visit:hover { text-decoration: underline; }
     /* Portfolio social */
-    #portfolio-social { background: var(--c-bg); }
     .portfolio-carousel {
       position: relative;
     }
@@ -1486,24 +1963,26 @@
       gap: 16px;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
+      
       padding: 4px 2px 12px;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: thin;
     }
     .portfolio-track::-webkit-scrollbar { height: 6px; }
     .portfolio-track::-webkit-scrollbar-thumb {
-      background: rgba(108, 78, 248, 0.35);
+      background: rgba(0, 0, 0, 0.25);
       border-radius: 999px;
     }
     .social-post {
       flex: 0 0 min(100%, 300px);
       scroll-snap-align: start;
-      border-radius: 16px;
+      border-radius: 1.5rem;
       overflow: hidden;
-      border: 1px solid var(--c-border);
-      background: #fff;
-      box-shadow: 0 10px 28px rgba(90, 60, 170, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.4);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
     }
     .social-post--fb { flex-basis: min(100%, 340px); }
     .social-post-head {
@@ -1536,7 +2015,7 @@
       padding: 20px;
       text-align: center;
       color: #fff;
-      font-weight: 700;
+      font-weight: 500;
       line-height: 1.35;
     }
     .social-post--fb .social-post-visual { aspect-ratio: 1200 / 630; }
@@ -1544,19 +2023,19 @@
       background: linear-gradient(145deg, #0f172a, #1e3a5f 55%, #334155);
     }
     .social-post-visual--aesthetic {
-      background: linear-gradient(145deg, #6c4ef8, #ef64d8);
+      background: linear-gradient(145deg, #0091ff, #8000ff 55%, #ff0099);
     }
     .social-post-visual--brand {
-      background: linear-gradient(145deg, #f5a245, #ef64d8 50%, #6c4ef8);
+      background: linear-gradient(145deg, #00aaff, #8000ff 50%, #ff0000);
     }
     .social-post-visual--tips {
-      background: linear-gradient(145deg, #17142a, #6c4ef8);
+      background: linear-gradient(145deg, #111, #0091ff);
     }
     .social-post-visual small {
       display: block;
       margin-top: 8px;
       font-size: 0.72rem;
-      font-weight: 600;
+      font-weight: 400;
       opacity: 0.85;
     }
     .social-post-body {
@@ -1571,7 +2050,7 @@
       padding: 3px 8px;
       border-radius: 999px;
       font-size: 0.68rem;
-      font-weight: 800;
+      font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
@@ -1590,62 +2069,109 @@
       margin-top: 16px;
     }
     .portfolio-nav button {
-      border: 1px solid var(--c-border);
-      background: #fff;
-      color: var(--c-text);
-      border-radius: 999px;
-      padding: 10px 18px;
+      border: 1px solid #000;
+      background: rgba(255, 255, 255, 0.1);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      color: #000;
+      border-radius: 2.5rem;
+      padding: 0.65rem 1.25rem;
       font: inherit;
       font-size: 0.88rem;
-      font-weight: 700;
+      font-weight: 400;
+      letter-spacing: 1px;
+      text-transform: uppercase;
       cursor: pointer;
-      transition: 0.2s ease;
+      transition: background 0.2s, transform 0.2s;
     }
     .portfolio-nav button:hover {
-      border-color: var(--c-purple);
-      color: var(--c-purple);
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
     }
-    /* Planos */
-    #planos { background: var(--c-surface); }
+    /* Planos — quadro glass Clarix (gradiente + fosco) atrás e nos cards */
+    #planos { background: transparent; }
+    .planos-glass-shell {
+      position: relative;
+      width: min(1140px, calc(100% - 6.25rem));
+      margin: 0 auto;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      background: rgba(255, 255, 255, 0.18);
+      -webkit-backdrop-filter: blur(30px);
+      backdrop-filter: blur(30px);
+      box-shadow: 0 24px 80px rgba(80, 60, 160, 0.12);
+    }
+    .planos-glass-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      opacity: 0.55;
+      pointer-events: none;
+    }
+    .planos-glass-inner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 2.25rem 2rem 2rem;
+      box-sizing: border-box;
+    }
     .planos-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
+      gap: 1.25rem;
       align-items: stretch;
     }
     .plano-card {
       position: relative;
       display: flex;
       flex-direction: column;
-      padding: 24px 20px;
-      border-radius: var(--radius);
-      border: 1px solid var(--c-border);
-      background: #fff;
-      box-shadow: 0 8px 24px rgba(90, 60, 170, 0.06);
+      padding: 1.75rem 1.5rem;
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      background: rgba(255, 255, 255, 0.42);
+      -webkit-backdrop-filter: blur(24px);
+      backdrop-filter: blur(24px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+    }
+    .plano-card:nth-child(even) {
+      background: rgba(255, 255, 255, 0.28);
     }
     .plano-card--featured {
-      border-color: rgba(108, 78, 248, 0.45);
-      box-shadow: 0 20px 48px rgba(108, 78, 248, 0.18);
-      transform: translateY(-4px);
+      background: rgba(255, 255, 255, 0.55);
+      border-color: rgba(255, 255, 255, 0.85);
+      box-shadow: 0 12px 40px rgba(80, 60, 160, 0.12);
+      transform: translateY(-0.25rem);
     }
     .plano-popular {
       position: absolute;
-      top: 14px;
-      right: 14px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: var(--grad-main);
-      color: #fff;
-      font-size: 0.68rem;
-      font-weight: 800;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.3rem 0.85rem;
+      border-radius: 2.5rem;
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      color: #000;
+      font-size: 0.75rem;
+      font-weight: 400;
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
     .plano-name {
-      margin: 0 0 6px;
-      font-family: Sora, Inter, system-ui, sans-serif;
-      font-size: 1.35rem;
-      color: var(--c-text);
+      margin: 0 0 0.4rem;
+      font-family: 'Sarabun', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #000;
+    }
+    #planos .section-head h2 strong {
+      font-weight: 700;
     }
     .plano-desc {
       margin: 0 0 16px;
@@ -1662,15 +2188,15 @@
     .plano-from {
       display: block;
       font-size: 0.78rem;
-      font-weight: 700;
+      font-weight: 500;
       color: var(--c-muted);
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
     .plano-price {
-      font-family: Sora, Inter, system-ui, sans-serif;
+      font-family: 'Sarabun', sans-serif;
       font-size: clamp(1.6rem, 3vw, 2rem);
-      font-weight: 800;
+      font-weight: 500;
       background: var(--grad-main);
       -webkit-background-clip: text;
       background-clip: text;
@@ -1680,7 +2206,7 @@
     }
     .plano-period {
       font-size: 0.88rem;
-      font-weight: 600;
+      font-weight: 400;
       color: var(--c-muted);
     }
     .plano-features {
@@ -1702,62 +2228,224 @@
       line-height: 1.5;
     }
     details {
-      border: 1px solid var(--c-border);
-      border-radius: 14px;
-      background: var(--c-card);
-      padding: 12px 14px;
-      margin-bottom: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 1.5rem;
+      background: rgba(255, 255, 255, 0.4);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.75rem;
     }
-    summary { cursor: pointer; font-weight: 700; }
-    details p { color: var(--c-muted); margin: 10px 0 4px; }
-    .cta-final { text-align: center; }
+    summary {
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      font-weight: 400;
+      font-size: 1.05rem;
+      letter-spacing: -0.01em;
+      color: #000;
+      list-style: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    details p { color: var(--c-muted); margin: 0.75rem 0 0.25rem; line-height: 1.55; }
+    .cta-final { text-align: left; }
+    .cta-final .section-head { margin-inline: 0; }
     .form-grid {
-      margin-top: 22px;
-      display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px;
-      max-width: 820px; margin-inline: auto;
+      margin-top: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.85rem;
+      max-width: 52rem;
+      margin-inline: 0;
+      padding: 1.75rem;
+      border-radius: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.4);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
     }
     input, select, textarea {
-      width: 100%; padding: 12px 14px; border-radius: 12px;
-      border: 1px solid var(--c-border); background: #ffffff;
-      color: var(--c-text); font: inherit;
+      width: 100%;
+      padding: 0.9rem 1.1rem;
+      border-radius: 1.25rem;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 0.55);
+      color: #000;
+      font: inherit;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
     }
-    input::placeholder, textarea::placeholder { color: #8e88a7; }
-    textarea { min-height: 105px; resize: vertical; grid-column: 1 / -1; }
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(0, 0, 0, 0.45);
+      background: rgba(255, 255, 255, 0.75);
+    }
+    input::placeholder, textarea::placeholder { color: rgba(0, 0, 0, 0.4); }
+    textarea { min-height: 7rem; resize: vertical; grid-column: 1 / -1; }
     .form-grid .full { grid-column: 1 / -1; }
-    .notice { color: var(--c-muted); font-size: .82rem; margin-top: 10px; }
+    .form-grid .btn { justify-self: start; }
+    .notice { color: var(--c-muted); font-size: 0.85rem; margin-top: 0.85rem; max-width: 52rem; }
     .form-status {
       margin: 14px auto 0;
       max-width: 820px;
       min-height: 1.2em;
       font-size: 0.9rem;
-      font-weight: 600;
+      font-weight: 400;
     }
     .form-status.is-ok { color: #15803d; }
     .form-status.is-error { color: #b91c1c; }
     .hp-field { position: absolute; left: -9999px; height: 0; overflow: hidden; }
-    footer {
-      border-top: 1px solid var(--c-border);
-      padding: 28px 0; color: var(--c-muted);
-      background: #ffffff;
+    footer.site-footer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 5;
+      border-top: none;
+      padding: 2.5rem var(--page-gutter) 3rem;
+      color: #000;
+      background: transparent;
     }
-    .foot {
-      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; align-items: center;
+    .glass-footer {
+      padding: 3rem;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      color: #000;
+      font-family: 'Sarabun', sans-serif;
     }
-    .foot-brand { display: flex; align-items: center; gap: 10px; color: var(--c-text); font-weight: 700; }
-    .foot-brand img {
-      width: 36px;
-      height: auto;
-      max-height: 36px;
-      object-fit: contain;
-      border-radius: 0;
-      background: none;
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 2.5rem;
+    }
+    .footer-left {
+      width: auto;
+      min-width: min(100%, 34rem);
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .footer-heading {
+      font-size: 1rem;
+      font-weight: 500;
+      margin: 0 0 0.45rem;
+      letter-spacing: -0.02em;
+    }
+    .footer-tagline {
+      margin: 0 0 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 400;
+      opacity: 0.7;
+      line-height: 1.4;
+      max-width: 22rem;
+    }
+    .footer-input-group {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 2rem;
+      padding: 0.3rem;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      max-width: 22rem;
+    }
+    .footer-input {
+      flex: 1;
+      min-width: 0;
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 0.55rem 1rem;
+      font-family: 'Sarabun', sans-serif;
+      font-size: 0.9rem;
+      color: #000;
+    }
+    .footer-input::placeholder {
+      color: rgba(0, 0, 0, 0.4);
+    }
+    .footer-submit {
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 2rem;
+      padding: 0.6rem 1.5rem;
+      font-family: 'Sarabun', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      cursor: pointer;
+      transition: transform 0.2s;
+      white-space: nowrap;
+    }
+    .footer-submit:hover {
+      transform: scale(1.05);
+    }
+    .footer-subtext {
+      margin: 0;
+      font-size: 0.75rem;
+      opacity: 0.6;
+      line-height: 1.4;
+      white-space: nowrap;
+      max-width: none;
+    }
+    .footer-right {
+      display: flex;
+      gap: 5rem;
+      padding-right: 2rem;
+    }
+    .footer-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .footer-col-title {
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin: 0 0 0.5rem;
+    }
+    .footer-col a {
+      color: #000;
+      opacity: 0.7;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: opacity 0.2s;
+    }
+    .footer-col a:hover {
+      opacity: 1;
+    }
+    .footer-line {
+      height: 1px;
+      background: rgba(0, 0, 0, 0.1);
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+    }
+    .footer-bottom {
+      text-align: center;
+      font-size: 0.8rem;
+      opacity: 0.6;
+    }
+    @media (max-width: 900px) {
+      .footer-top { flex-direction: column; gap: 2rem; }
+      .footer-left { width: 100%; min-width: 0; }
+      .footer-subtext { white-space: normal; }
+      .footer-right { flex-wrap: wrap; gap: 1.75rem 2.5rem; padding-right: 0; }
+    }
+    @media (max-width: 600px) {
+      footer.site-footer { padding: 1.5rem 1rem 2rem; }
+      .glass-footer { padding: 1.5rem; }
+      .footer-right { gap: 1.5rem; }
     }
 
     html.a11y-grayscale {
       filter: grayscale(1);
     }
     body.a11y-high-contrast {
-      background: #fff !important;
+      background: rgba(255, 255, 255, 0.4) !important;
       color: #000 !important;
     }
     body.a11y-high-contrast .card,
@@ -1765,7 +2453,7 @@
     body.a11y-high-contrast details,
     body.a11y-high-contrast .nav-links,
     body.a11y-high-contrast .whatsapp-bubble {
-      background: #fff !important;
+      background: rgba(255, 255, 255, 0.4) !important;
       color: #000 !important;
       border-color: #000 !important;
       box-shadow: none !important;
@@ -1796,7 +2484,7 @@
       color: #fff;
       background: linear-gradient(140deg, var(--c-purple), var(--c-violet), var(--c-cyan));
       box-shadow: 0 8px 24px rgba(108, 78, 248, 0.35);
-      font-weight: 800;
+      font-weight: 500;
       padding: 0 6px;
     }
     .a11y-toggle-emoji {
@@ -1833,7 +2521,7 @@
     .a11y-title {
       margin: 0 0 10px;
       font-size: .92rem;
-      font-weight: 700;
+      font-weight: 500;
       color: var(--c-text);
     }
     .a11y-row {
@@ -1850,26 +2538,26 @@
     }
     .a11y-btn {
       border: 1px solid var(--c-border);
-      background: #fff;
+      background: rgba(255, 255, 255, 0.4);
       color: var(--c-text);
       border-radius: 9px;
       height: 32px;
       min-width: 32px;
       padding: 0 10px;
       font-size: .82rem;
-      font-weight: 700;
+      font-weight: 500;
       cursor: pointer;
     }
     .a11y-switch {
       border: 1px solid var(--c-border);
-      background: #fff;
+      background: rgba(255, 255, 255, 0.4);
       color: var(--c-text);
       border-radius: 999px;
       min-width: 88px;
       height: 32px;
       padding: 0 10px;
       font-size: .78rem;
-      font-weight: 700;
+      font-weight: 500;
       cursor: pointer;
     }
     .a11y-switch.is-on {
@@ -1897,12 +2585,12 @@
     }
     .whatsapp-bubble {
       position: relative;
-      background: #ffffff;
+      background: rgba(255, 255, 255, 0.4);
       color: #1c1c1c;
       padding: 15px 20px;
       border-radius: 12px;
       border: none;
-      font-family: Montserrat, Inter, system-ui, sans-serif;
+      font-family: 'Sarabun', sans-serif;
       font-size: 0.875rem;
       font-weight: 500;
       line-height: 1.35;
@@ -2028,7 +2716,7 @@
         padding: 14px 16px;
         border-radius: 12px;
         font-size: 1rem;
-        font-weight: 600;
+        font-weight: 400;
         color: var(--c-text);
         text-shadow: none;
       }
@@ -2051,7 +2739,7 @@
         padding: 14px 16px;
         border-radius: 12px;
         font-size: 1rem;
-        font-weight: 600;
+        font-weight: 400;
         color: var(--c-text);
         text-shadow: none;
       }
@@ -2114,26 +2802,28 @@
       .hero-grid, .services, .process, .audience, .depo, .depo--pair, .planos-grid, .sites-criados-grid { grid-template-columns: 1fr 1fr; }
       .case-full-pillars, .case-full-kpis { grid-template-columns: 1fr 1fr; }
       .plano-card--featured { transform: none; }
+      .planos-glass-shell { width: calc(100% - 2.5rem); border-radius: 1.25rem; }
+      .planos-glass-inner { padding: 1.5rem 1.15rem 1.35rem; }
       .hero-logo-stage { margin: 0 auto; max-width: 432px; }
     }
     @media (max-width: 700px) {
       .servicos-linhas-grid {
-        grid-template-columns: 1fr;
+        justify-content: flex-start;
+      }
+      .servicos-linha-link {
+        font-size: 0.84rem;
+        height: 2.55rem;
+        padding: 0 1.1rem;
       }
       .hero-grid, .services, .process, .audience, .depo, .form-grid, .planos-grid, .ba-static-pair, .case-full-pillars, .case-full-kpis, .sites-criados-grid { grid-template-columns: 1fr; }
-      .hero { padding-top: 50px; }
+      .hero-copy {
+        left: 1.25rem;
+        max-width: calc(100% - 2.5rem);
+      }
       .hero-aside { min-height: 0; margin-top: 8px; }
       .hero-logo-stage { margin: 0 auto; padding-bottom: 4px; }
       .hero-logo-img { width: min(92vw, 396px); }
       .hero-card--blend { margin-top: 0.75rem; }
-      .nav-audio-btn {
-        width: 42px;
-        height: 42px;
-      }
-      .nav-audio-btn svg {
-        width: 18px;
-        height: 18px;
-      }
       .nav-lang-flag {
         width: 28px;
       }
@@ -2193,6 +2883,13 @@
         opacity: 1;
         transform: none;
       }
+      .soft-reveal,
+      .soft-reveal.is-revealed {
+        transform: none !important;
+        filter: none !important;
+        opacity: 1 !important;
+        transition: none !important;
+      }
       .btn-nav-pulse {
         animation: none;
       }
@@ -2206,27 +2903,218 @@
           0 6px 20px rgba(37, 211, 102, 0.28),
           0 4px 12px rgba(0, 0, 0, 0.09);
       }
-      #diferenciais::before {
-        animation: none;
-        transform: none;
-        inset: 0;
+    }
+  
+    .preload-hidden {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+    .reveal-anim {
+      transition: transform 1.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s, opacity 1.6s ease 0.6s;
+      will-change: transform, opacity;
+    }
+    .preload-hidden.reveal-anim.from-top {
+      transform: translateY(-20px);
+    }
+    .preload-hidden.reveal-anim.from-bottom {
+      transform: translateY(20px);
+    }
+    @media (min-width: 1025px) {
+      .nav-lang-bar {
+        position: absolute;
+        top: 3.625rem; /* alinhado com o 1º item do menu (Sobre nós) */
+        left: 0;
+        right: auto;
+        z-index: 6;
+        height: 1.35em;
       }
-      .nav-audio-btn,
-      .nav-audio-btn::before {
-        animation: none !important;
+      .nav-brand-cluster {
+        position: absolute;
+        top: 1.375rem;
+        left: 0;
+        right: auto;
+        z-index: 5;
       }
-      .nav-audio-btn::before {
-        transform: none;
-        opacity: 0.55;
+      .nav-outer {
+        position: relative;
+        min-height: 13.75rem;
       }
-      .nav-audio-btn.is-playing {
-        box-shadow:
-          0 0 0 1px rgba(255, 255, 255, 0.45) inset,
-          0 2px 12px rgba(108, 78, 248, 0.35),
-          0 0 28px rgba(169, 82, 255, 0.4);
+      .nav-links {
+        position: absolute;
+        top: 3.625rem;
+        right: 0;
+        left: auto;
+        align-items: flex-end;
+        z-index: 5;
+        font-size: 1rem;
+      }
+      .nav-links > a:hover,
+      .nav-dropdown-toggle:hover,
+      .nav-dropdown.is-open .nav-dropdown-toggle {
+        transform: translateX(-4px);
+      }
+      .nav-dropdown-menu {
+        left: auto;
+        right: 0;
+        text-align: right;
       }
     }
-  </style>
+    @media (max-width: 1024px) {
+      .nav-links.reveal-anim,
+      .nav-links.preload-hidden.reveal-anim.from-top {
+        transform: translateX(105%);
+        transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      body.nav-drawer-open .nav-links.reveal-anim,
+      body.nav-drawer-open .nav-links.preload-hidden.reveal-anim.from-top {
+        transform: translateX(0);
+      }
+    }
+    canvas {
+      display: block;
+    }
+    .char-mask {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
+      padding-top: 0.2em;
+      margin-top: -0.2em;
+      padding-bottom: 1.2em;
+      margin-bottom: -1.2em;
+      perspective: 500px;
+    }
+    .hero-char {
+      display: inline-block;
+      transform: translateY(110%) translateZ(-60px) rotateX(-65deg);
+      transform-origin: bottom center;
+      filter: blur(14px);
+      opacity: 0;
+      will-change: transform, filter, opacity;
+      transition: transform 1.6s cubic-bezier(0.2, 0.8, 0.2, 1), filter 1.6s ease, opacity 1.2s ease;
+    }
+    .hero-char.revealed {
+      transform: translateY(0) translateZ(0) rotateX(0deg);
+      filter: blur(0px);
+      opacity: 1;
+    }
+    .animated-title .hero-char {
+      transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.8s ease, opacity 0.6s ease;
+    }
+    /* Âncora Clarix: clientes + frase — um pouco mais cedo no scroll */
+    .scroll-content-wrapper {
+      position: absolute;
+      top: calc(100vh + 22rem);
+      left: 0;
+      width: 100%;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      pointer-events: none;
+    }
+    .scroll-title-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding-left: 3.125rem;
+      padding-top: 0;
+      /* Espaço para os docks pousarem sob o título antes do próximo bloco */
+      margin-bottom: 12rem;
+      box-sizing: border-box;
+    }
+    .scroll-title-container h3 {
+      font-family: 'Sarabun', sans-serif;
+      font-weight: 200;
+      font-size: max(2.625rem, 5.5vw);
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      color: #000;
+      margin: 0;
+      line-height: 1.1;
+      text-align: left;
+    }
+    .scroll-title-container h3 strong {
+      font-weight: 700;
+    }
+    /* Mesma linha colorida dos badges (O que entregamos? / Para quem é?) */
+    .scroll-title-container h3::after {
+      content: "";
+      display: block;
+      height: 1px;
+      width: min(100%, 40rem);
+      margin: 1rem 0 0;
+      background: linear-gradient(to right, #0091ff, #00aaff, #8000ff, #ff0099, #ff0000);
+    }
+    /* Palavras voadoras — idêntico ao Clarix (lorem / amet / dolore) */
+    .words-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      perspective: 1500px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .flying-word {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      font-family: 'Sarabun', sans-serif;
+      font-weight: 400;
+      font-size: max(48px, 12vw);
+      color: #000000;
+      margin: 0;
+      padding: 0 0.2em;
+      opacity: 0;
+      white-space: nowrap;
+      transform: translate3d(-50%, -50%, 0) rotateY(0deg);
+      will-change: transform, opacity;
+    }
+    .flying-word .char {
+      display: inline-block;
+      padding: 0 0.15em;
+      margin: 0 -0.15em;
+    }
+    .diff-dock strong {
+      font-weight: 700;
+    }
+    /* Lista sob o título (estática — as palavras grandes são as do Clarix) */
+    .diff-dock-list {
+      list-style: none;
+      margin: 1.75rem 0 0;
+      padding: 0;
+      max-width: min(40rem, calc(100vw - 5rem));
+    }
+    .diff-dock {
+      font-family: 'Sarabun', sans-serif;
+      font-size: max(1.05rem, 1.2vw);
+      font-weight: 400;
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+      color: #000;
+      margin: 0 0 0.7rem;
+      opacity: 1;
+      transform: none;
+      filter: none;
+    }
+    @media (max-width: 600px) {
+      #animated-hero-title {
+        font-size: max(2rem, 9vw);
+        white-space: normal;
+      }
+      .hero-slide {
+        font-size: clamp(1.15rem, 6.2vw, 1.85rem);
+        max-width: 100%;
+      }
+      .hero-title-lead { white-space: normal; }
+      .hero-copy { left: 1.25rem; right: 1.25rem; max-width: none; }
+      .hero-under-title .lead { white-space: normal; }
+      .scroll-title-container { padding-right: 1.25rem; }
+      .scroll-title-container h3 { white-space: normal; }
+      .diff-dock-list { max-width: calc(100vw - 2.5rem); }
+    }
+</style>
+  <link rel="stylesheet" href="assets/daat-mobile.css?v=3">
 </head>
 <body id="topo">
   <noscript id="metaPixelNoscript"></noscript>
@@ -2235,7 +3123,7 @@
       <div class="nav-lang-bar" role="group" data-i18n-aria="nav_lang_aria" aria-label="Selecionar idioma do site">
         <button
           type="button"
-          class="nav-lang-btn is-active"
+          class="nav-lang-btn soft-reveal is-active"
           data-lang="pt-BR"
           aria-pressed="true"
           aria-label="Português (Brasil)"
@@ -2249,7 +3137,7 @@
         </button>
         <button
           type="button"
-          class="nav-lang-btn"
+          class="nav-lang-btn soft-reveal"
           data-lang="en-US"
           aria-pressed="false"
           aria-label="English (United States)"
@@ -2268,44 +3156,6 @@
         </button>
       </div>
       <div class="nav-wrap">
-      <div class="nav-brand-cluster">
-        <a class="brand" href="#topo" data-i18n-aria="nav_brand_aria" aria-label="Ir para o topo da página">
-          <img
-            src="assets/logo-daat-real.png"
-            data-i18n-alt="nav_logo_alt"
-            alt="Logo DAAT Mídia Digital"
-            width="1024"
-            height="1024"
-            decoding="sync"
-            fetchpriority="high"
-            loading="eager"
-          >
-        </a>
-        <div class="nav-audio-player">
-          <audio
-            id="siteBgMusic"
-            src="assets/musica-daat.mp3"
-            loop
-            preload="metadata"
-          ></audio>
-          <button
-            type="button"
-            class="nav-audio-btn"
-            id="bgMusicToggle"
-            aria-pressed="false"
-            aria-label="Reproduzir música"
-            data-i18n-title="audio_title"
-            title="אודי דמארי — ניגון תפילה · Toque para ouvir"
-          >
-            <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M8 5v14l11-7L8 5z" />
-            </svg>
-            <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-            </svg>
-          </button>
-        </div>
-      </div>
       <button
         type="button"
         class="nav-burger"
@@ -2318,14 +3168,9 @@
         <span class="nav-burger-bar"></span>
         <span class="nav-burger-bar"></span>
       </button>
-      <div class="nav-links" id="navMainMenu">
-        <a href="#diferenciais" data-i18n="nav_diferenciais">Diferenciais</a>
-        <a href="#sobre-nos" data-i18n="nav_sobre">Sobre nós</a>
+      <div class="nav-links preload-hidden reveal-anim from-top" id="navMainMenu">
         <div class="nav-dropdown" data-dropdown>
-          <button
-            type="button"
-            class="nav-dropdown-toggle"
-            id="navServicosBtn"
+          <a href="servicos.html" class="nav-dropdown-toggle" id="navServicosBtn"
             aria-expanded="false"
             aria-haspopup="true"
             aria-controls="navServicosMenu"
@@ -2336,21 +3181,19 @@
             <svg class="nav-dropdown-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path fill="currentColor" d="M7 10l5 5 5-5H7z" />
             </svg>
-          </button>
+          </a>
           <ul class="nav-dropdown-menu" id="navServicosMenu" role="menu" aria-labelledby="navServicosBtn">
-            <li role="none"><a role="menuitem" href="#servico-branding" data-i18n="nav_sub_branding">Branding</a></li>
-            <li role="none"><a role="menuitem" href="#garantia-web" data-i18n="nav_sub_web">Desenvolvimento Web</a></li>
-            <li role="none"><a role="menuitem" href="#servico-design" data-i18n="nav_sub_design">Design</a></li>
-            <li role="none"><a role="menuitem" href="#servico-estrategia" data-i18n="nav_sub_estrategia">Estratégia Digital</a></li>
-            <li role="none"><a role="menuitem" href="#servico-trafego" data-i18n="nav_sub_trafego">Tráfego Pago</a></li>
-            <li role="none"><a role="menuitem" href="#servico-social" data-i18n="nav_sub_social">Social Media</a></li>
-            <li role="none"><a role="menuitem" href="#servico-suporte" data-i18n="nav_sub_suporte">Suporte e Gestão</a></li>
+            <li role="none"><a role="menuitem" href="servicos.html#servico-branding" data-i18n="nav_sub_branding">Branding</a></li>
+            <li role="none"><a role="menuitem" href="servicos.html#servico-web" data-i18n="nav_sub_web">Desenvolvimento Web</a></li>
+            <li role="none"><a role="menuitem" href="servicos.html#servico-design" data-i18n="nav_sub_design">Design</a></li>
+            <li role="none"><a role="menuitem" href="servicos.html#servico-estrategia" data-i18n="nav_sub_estrategia">Estratégia Digital</a></li>
+            <li role="none"><a role="menuitem" href="servicos.html#servico-trafego" data-i18n="nav_sub_trafego">Tráfego Pago</a></li>
+            <li role="none"><a role="menuitem" href="servicos.html#servico-social" data-i18n="nav_sub_social">Social Media</a></li>
+            <li role="none"><a role="menuitem" href="servicos.html#servico-suporte" data-i18n="nav_sub_suporte">Suporte e Gestão</a></li>
           </ul>
         </div>
-        <a href="#processo" data-i18n="nav_metodologia">Metodologia</a>
-        <a href="#resultados" data-i18n="nav_resultados">Resultados</a>
-        <a href="#planos" data-i18n="nav_planos">Planos</a>
-        <a href="#contato" class="btn btn-main btn-nav-pulse" data-i18n="nav_cta">Quero crescer</a>
+        <a href="resultados.html" data-i18n="nav_resultados">Resultados</a>
+        <a href="planos.html" data-i18n="nav_planos">Planos</a>
       </div>
       </div>
     </div>
@@ -2359,99 +3202,94 @@
 
   <header id="inicio" class="hero">
     <div class="container hero-grid">
-      <div>
-        <h1>
-          <span data-i18n="hero_h1_l1">SOLUÇÕES</span><br><span data-i18n="hero_h1_l2">DIGITAIS PARA</span>
+      <div class="hero-copy">
+        <span class="hero-brand-mark-wrap">
+          <img
+            class="hero-brand-mark soft-reveal"
+            src="assets/logo-daat-wordmark.png"
+            data-i18n-alt="hero_logo_alt"
+            alt="DAAT Mídia Digital"
+            width="644"
+            height="140"
+            decoding="async"
+            loading="eager"
+          >
+        </span>
+        <h1 id="animated-hero-title" class="animated-title">
+          <span class="hero-title-lead" data-i18n="hero_h1_lead">Soluções Digitais para</span>
           <span class="hero-slide" data-i18n-aria="hero_slide_aria" aria-label="Serviços em destaque">
             <span class="hero-slide-track">
-              <span class="hero-slide-word" data-i18n="hero_w1">REDES SOCIAIS</span>
-              <span class="hero-slide-word" data-i18n="hero_w2">WEBSITE</span>
-              <span class="hero-slide-word" data-i18n="hero_w3">MARKETING</span>
-              <span class="hero-slide-word" data-i18n="hero_w4">TRÁFEGO PAGO</span>
-              <span class="hero-slide-word" data-i18n="hero_w5">SOCIAL MEDIA</span>
-              <span class="hero-slide-word" data-i18n="hero_w6">LANDING PAGES</span>
+              <span class="hero-slide-word" data-i18n="hero_w1">WEBSITE</span>
+              <span class="hero-slide-word" data-i18n="hero_w2">LANDING PAGE</span>
+              <span class="hero-slide-word" data-i18n="hero_w3">SOCIAL MÍDIA</span>
+              <span class="hero-slide-word" data-i18n="hero_w4">GESTÃO DE REDES SOCIAIS</span>
+              <span class="hero-slide-word" data-i18n="hero_w5">TRÁFEGO PAGO</span>
+              <span class="hero-slide-word" data-i18n="hero_w6">DESIGN SYSTEM</span>
             </span>
           </span>
         </h1>
-        <p class="lead" data-i18n="hero_lead">
-          Se o seu negócio não está vendendo na internet, você está deixando dinheiro na mesa todos os dias. Transformamos presença digital em clientes, faturamento e crescimento previsível.
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-main" href="#contato" data-i18n="hero_cta">Quero transformar meu negócio</a>
-        </div>
-        <div class="hero-kpis kpis" data-i18n-aria="hero_stats_aria" aria-label="Números da DAAT">
-          <div class="kpi">
-            <strong class="kpi-value" data-count="150" data-suffix="+">0</strong>
-            <span data-i18n="hero_stat_clients">Clientes atendidos</span>
-          </div>
-          <div class="kpi">
-            <strong class="kpi-value" data-count="5" data-suffix="+">0</strong>
-            <span data-i18n="hero_stat_years">Anos de mercado</span>
+        <div class="hero-under-title">
+          <p class="lead preload-hidden reveal-anim from-bottom" data-i18n="hero_lead">
+            Transformamos presença digital em clientes, faturamento e crescimento previsível.
+          </p>
+          <div class="hero-actions preload-hidden reveal-anim from-bottom">
+            <a class="hi-btn" href="#contato" data-i18n="hero_cta">Quero transformar meu negócio</a>
           </div>
         </div>
       </div>
-      <aside class="hero-aside">
-        <div class="hero-logo-stage">
-          <img
-            class="hero-logo-img"
-            src="assets/logo-daat-real.png"
-            data-i18n-alt="hero_logo_alt"
-            alt="DAAT — identidade visual em alta definição"
-            width="1024"
-            height="1024"
-            decoding="async"
-            fetchpriority="high"
-          >
-        </div>
-      </aside>
     </div>
   </header>
 
-  <section id="diferenciais">
-    <div class="container">
-      <div class="section-head">
-        <h2 data-i18n="diff_title">Por que escolher a DAAT Mídia Digital?</h2>
+  <div class="scroll-content-wrapper">
+    <div class="clients-container" aria-label="Plataformas e canais">
+      <p class="clients-subtitle" data-i18n="clients_label">Canais digitais</p>
+      <div class="clients-line" aria-hidden="true"></div>
+      <div class="marquee-container">
+        <div class="marquee-content">
+          <img class="marquee-logo" src="assets/clarix/images/companies/TikTok.png" alt="TikTok" width="180" height="60" loading="lazy" decoding="async">
+          <img class="marquee-logo" src="assets/clarix/images/companies/WhatsApp.png" alt="WhatsApp" width="180" height="60" loading="lazy" decoding="async">
+          <img class="marquee-logo" src="assets/clarix/images/companies/YouTube.png" alt="YouTube" width="180" height="60" loading="lazy" decoding="async">
+          <img class="marquee-logo" src="assets/clarix/images/companies/instagram.png" alt="Instagram" width="180" height="60" loading="lazy" decoding="async">
+          <img class="marquee-logo" src="assets/clarix/images/companies/Facebook.png" alt="Facebook" width="180" height="60" loading="lazy" decoding="async">
+          <img class="marquee-logo" src="assets/clarix/images/companies/Spotify.png" alt="Spotify" width="180" height="60" loading="lazy" decoding="async">
+          <img class="marquee-logo" src="assets/clarix/images/companies/Snapchat.png" alt="Snapchat" width="180" height="60" loading="lazy" decoding="async">
+          <!-- loop seamless -->
+          <img class="marquee-logo" src="assets/clarix/images/companies/TikTok.png" alt="" width="180" height="60" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="marquee-logo" src="assets/clarix/images/companies/WhatsApp.png" alt="" width="180" height="60" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="marquee-logo" src="assets/clarix/images/companies/YouTube.png" alt="" width="180" height="60" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="marquee-logo" src="assets/clarix/images/companies/instagram.png" alt="" width="180" height="60" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="marquee-logo" src="assets/clarix/images/companies/Facebook.png" alt="" width="180" height="60" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="marquee-logo" src="assets/clarix/images/companies/Spotify.png" alt="" width="180" height="60" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="marquee-logo" src="assets/clarix/images/companies/Snapchat.png" alt="" width="180" height="60" loading="lazy" decoding="async" aria-hidden="true">
+        </div>
       </div>
-      <article class="card">
-        <ul>
-          <li data-i18n-html="diff_li1"><strong>Agência completa</strong> que centraliza toda a operação digital em um só lugar.</li>
-          <li data-i18n-html="diff_li2">Seu posicionamento <strong>nítido e valorizado</strong>.</li>
-          <li data-i18n-html="diff_li3"><strong>Comunicação estratégica</strong> elaborada para o seu público alto.</li>
-          <li data-i18n-html="diff_li4">Sites desenvolvidos exclusivamente para o seu negócio, com UX e estrutura pensadas para <strong>alavancar resultados</strong>.</li>
-          <li data-i18n-html="diff_li5"><strong>Marca que gera confiança e credibilidade</strong>.</li>
-          <li data-i18n-html="diff_li6"><strong>Execução de alta performance</strong>: posts, criativos e vídeos com foco no crescimento do seu negócio e fortalecimento da identidade.</li>
-        </ul>
-      </article>
     </div>
-  </section>
-
-  <section id="funil">
-    <div class="container">
-      <div class="section-head">
-        <span class="badge" data-i18n="funil_badge">Funil de conversão</span>
-        <h2 data-i18n-html="funil_h2_full">Estrutura de funil <span class="funnel-callout">(você NÃO tem isso ainda)</span></h2>
-        <p data-i18n="funil_p">Seu site precisa seguir essa ordem:</p>
-      </div>
-      <article class="card">
-        <ol class="funnel-steps">
-          <li data-i18n-html="funil_ol1"><strong>Dor</strong> (problema)</li>
-          <li data-i18n-html="funil_ol2"><strong>Identificação</strong></li>
-          <li data-i18n-html="funil_ol3"><strong>Quebra de crença</strong></li>
-          <li data-i18n-html="funil_ol4"><strong>Solução</strong></li>
-          <li data-i18n-html="funil_ol5"><strong>Prova</strong></li>
-          <li data-i18n-html="funil_ol6"><strong>Oferta</strong></li>
-          <li data-i18n-html="funil_ol7"><strong>CTA</strong></li>
-        </ol>
-      </article>
+    <div class="scroll-title-container" id="scroll-title">
+      <h3 class="animated-title flow-title" data-i18n-html="scroll_title">Por que escolher a<br><strong>DAAT Mídia</strong> Digital?</h3>
+      <ul class="diff-dock-list" data-i18n-aria="diff_list_aria" aria-label="Diferenciais DAAT">
+        <li id="diff-dock-1" class="diff-dock" data-i18n-html="diff_fly1"><strong>Agência completa</strong> em um só lugar</li>
+        <li id="diff-dock-2" class="diff-dock" data-i18n-html="diff_fly2"><strong>Posicionamento</strong> nítido e valorizado</li>
+        <li id="diff-dock-3" class="diff-dock" data-i18n-html="diff_fly3">Comunicação estratégica de <strong>alto impacto</strong></li>
+        <li id="diff-dock-4" class="diff-dock" data-i18n-html="diff_fly4"><strong>Sites exclusivos</strong> que alavancam resultados</li>
+        <li id="diff-dock-5" class="diff-dock" data-i18n-html="diff_fly5">Marca com <strong>confiança e credibilidade</strong></li>
+        <li id="diff-dock-6" class="diff-dock" data-i18n-html="diff_fly6">Execução de <strong>alta performance</strong></li>
+      </ul>
     </div>
-  </section>
+  </div>
 
+  <div class="words-container" id="words-container" aria-hidden="true">
+    <div id="word1" class="flying-word">Planejamento</div>
+    <div id="word2" class="flying-word">Conteúdo</div>
+    <div id="word3" class="flying-word">Resultados</div>
+  </div>
+
+  <div class="home-end-flow">
   <section id="servicos">
     <div class="container">
       <div class="section-head">
-        <span class="badge" data-i18n="serv_badge">O que entregamos</span>
-        <h2 data-i18n-html="serv_h2">Soluções completas para quem quer <span class="gradient">vender de verdade</span></h2>
-        <p data-i18n="serv_lead">Você não precisa contratar vários fornecedores. Na DAAT você concentra estratégia, execução e otimização contínua em um único time.</p>
+        <span class="badge" data-i18n="serv_badge">O que entregamos?</span>
+        <h2 class="animated-title flow-title" data-i18n-html="serv_h2">Soluções completas para quem quer<br><strong>vender de verdade</strong></h2>
+        <p data-i18n-html="serv_lead">Você não precisa contratar vários fornecedores.<br><span class="serv-lead-line">Na DAAT você concentra estratégia, execução e otimização contínua em um único time.</span></p>
       </div>
       <ul class="servicos-linhas-grid" data-i18n-aria="servicos_linhas_aria" aria-label="Linhas de serviço">
         <li><a id="servico-branding" class="servicos-linha-link" href="#" data-wa-service="branding" target="_blank" rel="noopener noreferrer" data-i18n="nav_sub_branding">Branding</a></li>
@@ -2462,647 +3300,225 @@
         <li><a class="servicos-linha-link" href="#" data-wa-service="social" target="_blank" rel="noopener noreferrer" data-i18n="nav_sub_social">Social Media</a></li>
         <li><a id="servico-suporte" class="servicos-linha-link" href="#" data-wa-service="suporte" target="_blank" rel="noopener noreferrer" data-i18n="nav_sub_suporte">Suporte e Gestão</a></li>
       </ul>
-      <aside id="garantia-web" class="garantia-selo" data-wa-section="web">
-        <span class="garantia-selo-mark" aria-hidden="true">✓</span>
-        <div class="garantia-selo-body">
-          <span class="garantia-selo-tag" data-i18n="garantia_badge">Garantia DAAT · Sites</span>
-          <strong class="garantia-selo-title" data-i18n="garantia_title">2 rodadas de ajustes inclusas</strong>
-          <p class="garantia-selo-desc" data-i18n="garantia_desc">Contratar criação de site não precisa ser um risco. Seu projeto inclui duas revisões completas — layout, textos e estrutura — sem custo extra.</p>
-          <ul class="garantia-selo-list">
-            <li data-i18n="garantia_li1">Ajustes de design e navegação</li>
-            <li data-i18n="garantia_li2">Revisão de copy e CTAs</li>
-            <li data-i18n="garantia_li3">Validação antes da publicação</li>
-          </ul>
-        </div>
-      </aside>
       <div class="services">
-        <article id="servico-landing" class="card" data-wa-section="landing">
-          <div class="icon">🚀</div>
-          <h3 data-i18n="serv1_h3">Landing Pages de Alta Conversão</h3>
-          <p data-i18n="serv1_p">Páginas com copy persuasiva, design profissional e estrutura para converter tráfego em leads e vendas.</p>
-          <ul>
-            <li data-i18n="serv1_li1">Oferta e posicionamento comercial</li>
-            <li data-i18n="serv1_li2">Estrutura com CTA estratégico</li>
-            <li data-i18n="serv1_li3">Integração com WhatsApp e CRM</li>
-          </ul>
-          <p class="garantia-inline" data-i18n-html="garantia_inline">✓ <strong>2 rodadas de ajustes inclusas</strong> em sites e landing pages</p>
-          <a class="btn btn-wa" href="#" data-wa-service="landing" target="_blank" rel="noopener noreferrer" data-i18n="wa_btn">Falar no WhatsApp</a>
-        </article>
-        <article id="servico-trafego" class="card" data-wa-section="trafego">
-          <div class="icon">🎯</div>
-          <h3 data-i18n="serv2_h3">Tráfego Pago Performance</h3>
-          <p data-i18n="serv2_p">Campanhas no Meta Ads e Google Ads com segmentação inteligente e foco em retorno sobre investimento.</p>
-          <ul>
-            <li data-i18n="serv2_li1">Planejamento de funil e criativos</li>
-            <li data-i18n="serv2_li2">Gestão e otimização diária</li>
-            <li data-i18n="serv2_li3">Relatórios com métricas de negócio</li>
-          </ul>
-          <a class="btn btn-wa" href="#" data-wa-service="trafego" target="_blank" rel="noopener noreferrer" data-i18n="wa_btn">Falar no WhatsApp</a>
-        </article>
         <article id="servico-social" class="card" data-wa-section="social">
-          <div class="icon">📲</div>
-          <h3 data-i18n="serv3_h3">Social Media e Gestão de Conteúdo</h3>
+          <h3 class="animated-title flow-title" data-i18n="serv3_h3">Social Media e Gestão de Conteúdo</h3>
           <p data-i18n="serv3_p">Posicionamento digital profissional para fortalecer marca, gerar autoridade e nutrir potenciais clientes.</p>
           <ul>
             <li data-i18n="serv3_li1">Calendário editorial estratégico</li>
             <li data-i18n="serv3_li2">Design e copy para redes sociais</li>
             <li data-i18n="serv3_li3">Gestão e evolução de presença digital</li>
           </ul>
-          <a class="btn btn-wa" href="#" data-wa-service="social" target="_blank" rel="noopener noreferrer" data-i18n="wa_btn">Falar no WhatsApp</a>
         </article>
+        <article id="servico-landing" class="card" data-wa-section="landing">
+          <h3 class="animated-title flow-title" data-i18n="serv1_h3">Websites e Landing Pages de Alta Conversão</h3>
+          <p data-i18n="serv1_p">Páginas com copy persuasiva, design profissional e estrutura para converter tráfego em leads e vendas.</p>
+          <ul>
+            <li data-i18n="serv1_li1">Oferta e posicionamento comercial</li>
+            <li data-i18n="serv1_li2">Estrutura com CTA estratégico</li>
+            <li data-i18n="serv1_li3">Integração com WhatsApp e CRM</li>
+          </ul>
+          <span class="garantia-inline" data-i18n-html="garantia_inline">✓ <strong>2 rodadas de ajustes inclusas</strong>&nbsp;em sites e landing pages</span>
+        </article>
+        <article id="servico-trafego" class="card" data-wa-section="trafego">
+          <h3 class="animated-title flow-title" data-i18n="serv2_h3">Anúncios, Tráfego Pago e Performance</h3>
+          <p data-i18n="serv2_p">Campanhas no Meta Ads e Google Ads com segmentação inteligente e foco em retorno sobre investimento.</p>
+          <ul>
+            <li data-i18n="serv2_li1">Planejamento de funil e criativos</li>
+            <li data-i18n="serv2_li2">Gestão e otimização diária</li>
+            <li data-i18n="serv2_li3">Relatórios com métricas de negócio</li>
+          </ul>
+        </article>
+      </div>
+      <div class="services-wa-cta">
+        <a class="hi-btn" href="#" data-wa-service="default" target="_blank" rel="noopener noreferrer" data-i18n="wa_btn">Falar no WhatsApp</a>
       </div>
     </div>
   </section>
 
-  <section>
+  <section id="para-quem">
     <div class="container">
       <div class="section-head">
-        <span class="badge" data-i18n="aud_badge">Para quem é</span>
-        <h2 data-i18n-html="aud_h2">Feito para empresas que querem <span class="gradient">crescimento previsível</span></h2>
+        <span class="badge" data-i18n="aud_badge">Para quem é?</span>
+        <h2 class="animated-title flow-title" data-i18n-html="aud_h2">Feito para empresas que querem<br><strong>crescimento previsível</strong></h2>
       </div>
       <div class="audience">
-        <article class="card"><h3 data-i18n="aud1_h3">Negócios locais</h3><p data-i18n="aud1_p">Clínicas, escolas, estéticas e serviços que querem agenda cheia com mídia de performance.</p></article>
-        <article class="card"><h3 data-i18n="aud2_h3">E-commerce</h3><p data-i18n="aud2_p">Lojas virtuais que precisam aumentar ticket, recompra e escalar faturamento com rentabilidade.</p></article>
-        <article class="card"><h3 data-i18n="aud3_h3">Prestadores B2B</h3><p data-i18n="aud3_p">Empresas que vendem serviços de maior valor e precisam de pipeline qualificado.</p></article>
-      </div>
-    </div>
-  </section>
-
-  <section id="processo">
-    <div class="container">
-      <div class="section-head">
-        <span class="badge" data-i18n="proc_badge">Método DAAT</span>
-        <h2 data-i18n="proc_h2">Como geramos resultado em 4 etapas</h2>
-      </div>
-      <div class="process">
-        <article class="step"><b>1</b><h3 data-i18n="proc1_h3">Diagnóstico</h3><p data-i18n="proc1_p">Análise do negócio, oferta, concorrência e oportunidades de escala.</p></article>
-        <article class="step"><b>2</b><h3 data-i18n="proc2_h3">Estratégia</h3><p data-i18n="proc2_p">Plano de funil, criativos, canais, orçamento e metas.</p></article>
-        <article class="step"><b>3</b><h3 data-i18n="proc3_h3">Execução</h3><p data-i18n="proc3_p">Publicação de páginas, campanhas e calendário social.</p></article>
-        <article class="step"><b>4</b><h3 data-i18n="proc4_h3">Otimização</h3><p data-i18n="proc4_p">Melhorias semanais orientadas por dados para aumentar ROI.</p></article>
-      </div>
-    </div>
-  </section>
-
-  <section id="antes-depois">
-    <div class="container">
-      <div class="section-head">
-        <span class="badge" data-i18n="ba_badge">Antes e depois</span>
-        <h2 data-i18n-html="ba_h2">A transformação dos sites dos <span class="gradient">nossos clientes</span></h2>
-        <p data-i18n="ba_lead">Arraste o controle para comparar o site antigo com o projeto entregue pela DAAT — mais profissional, mobile e pronto para converter.</p>
-      </div>
-      <div class="ba-grid">
-        <div>
-          <h3 class="ba-case-title" data-i18n="ba_case1_title">Dr. Camargo Quintão · Advocacia</h3>
-          <figure class="ba-compare" data-ba-compare>
-            <div class="ba-compare-inner">
-              <div class="ba-compare-after">
-                <img
-                  src="assets/prova-social-camargo-notebook.png"
-                  data-i18n-alt="ba_case1_after_alt"
-                  alt="Novo site do escritório Dr. Camargo Quintão criado pela DAAT"
-                  width="1200"
-                  height="750"
-                  loading="lazy"
-                  decoding="async"
-                >
-              </div>
-              <div class="ba-compare-before">
-                <div class="ba-mock-old" aria-hidden="true">
-                  <div class="ba-mock-old-bar">
-                    <span>HOME</span><span>SOBRE</span><span>SERVIÇOS</span><span>CONTATO</span>
-                  </div>
-                  <h4 data-i18n="ba_mock_title">Escritório de Advocacia — Página Inicial</h4>
-                  <p data-i18n="ba_mock_p1">Bem-vindo ao nosso site. Atuamos em diversas áreas do direito.</p>
-                  <div class="ba-mock-old-box">
-                    <p data-i18n="ba_mock_p2">Layout genérico · Não responsivo · Sem CTA claro · Pouca conversão</p>
-                  </div>
-                  <p data-i18n="ba_mock_p3">Entre em contato: (49) 0000-0000 · contato@email.com</p>
-                </div>
-              </div>
-              <div class="ba-handle" aria-hidden="true"></div>
-              <input type="range" class="ba-range" min="0" max="100" value="50" data-i18n-aria="ba_slider_aria" aria-label="Arraste para comparar antes e depois">
-            </div>
-            <figcaption class="ba-labels">
-              <span data-i18n="ba_label_before">Antes</span>
-              <span data-i18n="ba_label_after">Depois</span>
-            </figcaption>
-          </figure>
-          <p class="ba-caption" data-i18n="ba_case1_caption">Site institucional reformulado com foco em credibilidade, WhatsApp e captação de leads.</p>
-          <a class="ba-case-visit" href="https://daatmidia.github.io/Camargoquintaoadvogado/" target="_blank" rel="noopener noreferrer" data-i18n="sites_visit">Visitar site →</a>
-        </div>
-        <div>
-          <h3 class="ba-case-title" data-i18n="ba_case2_title">Página interna · Mesmo cliente</h3>
-          <div class="ba-static-pair">
-            <figure class="ba-static-card ba-static-card--before">
-              <div class="ba-mock-old" style="aspect-ratio:16/10;padding:16px;">
-                <div class="ba-mock-old-bar"><span>HOME</span><span>ÁREAS</span></div>
-                <h4 style="font-size:12px;" data-i18n="ba_mock2_title">Áreas de atuação</h4>
-                <p data-i18n="ba_mock2_p">Texto longo sem hierarquia visual. Difícil leitura no celular.</p>
-              </div>
-              <figcaption data-i18n="ba_label_before">Antes</figcaption>
-            </figure>
-            <figure class="ba-static-card ba-static-card--after">
-              <img
-                src="assets/prova-social-camargo-escritorio.png"
-                data-i18n-alt="ba_case2_after_alt"
-                alt="Nova página interna do site Dr. Camargo Quintão"
-                width="1200"
-                height="750"
-                loading="lazy"
-                decoding="async"
-              >
-              <figcaption data-i18n="ba_label_after">Depois</figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="sites-criados">
-    <div class="container">
-      <div class="section-head">
-        <span class="badge" data-i18n="sites_badge">Portfólio web</span>
-        <h2 data-i18n-html="sites_h2">Sites <span class="gradient">criados pela DAAT</span></h2>
-        <p data-i18n="sites_lead">Projetos reais no ar — institucionais, landing pages e páginas de conversão desenvolvidas do zero para nossos clientes.</p>
-      </div>
-      <div class="sites-criados-grid">
-        <article class="site-showcase-card">
-          <a
-            class="site-showcase-preview"
-            href="https://daatmidia.github.io/Camargoquintaoadvogado/"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-i18n-aria="sites_camargo_preview_aria"
-            aria-label="Abrir site do Dr. Camargo Quintão"
-          >
-            <img
-              src="assets/prova-social-camargo-notebook.png"
-              data-i18n-alt="sites_camargo_img_alt"
-              alt="Site do Dr. Camargo Quintão no notebook"
-              width="1200"
-              height="750"
-              loading="lazy"
-              decoding="async"
-            >
-          </a>
-          <div class="site-showcase-body">
-            <span class="site-showcase-tag" data-i18n="sites_camargo_tag">Advocacia</span>
-            <h3 data-i18n="sites_camargo_title">Dr. Camargo Quintão</h3>
-            <p data-i18n="sites_camargo_desc">Site institucional com áreas de atuação, FAQ, artigos jurídicos e captação via WhatsApp para todo o Brasil.</p>
-            <a
-              class="site-showcase-link"
-              href="https://daatmidia.github.io/Camargoquintaoadvogado/"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-i18n="sites_visit"
-            >Visitar site →</a>
-          </div>
-        </article>
-        <article class="site-showcase-card">
-          <a
-            class="site-showcase-preview"
-            href="https://chacaradocris.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-i18n-aria="sites_chacara_preview_aria"
-            aria-label="Abrir site da Chácara do Cris"
-          >
-            <div class="site-mock" aria-hidden="true">
-              <div class="site-mock-chrome">
-                <span></span><span></span><span></span>
-                <em>chacaradocris.com</em>
-              </div>
-              <div class="site-mock-hero site-mock-hero--chacara">
-                <small data-i18n="sites_chacara_mock_brand">Chácara do Cris</small>
-                <strong data-i18n="sites_chacara_mock_headline">Celebre o amor em um cenário encantador e memorável</strong>
-                <span data-i18n="sites_chacara_mock_tags">Casamentos · Formaturas · Eventos corporativos</span>
-              </div>
-            </div>
-          </a>
-          <div class="site-showcase-body">
-            <span class="site-showcase-tag" data-i18n="sites_chacara_tag">Eventos</span>
-            <h3 data-i18n="sites_chacara_title">Chácara do Cris</h3>
-            <p data-i18n="sites_chacara_desc">Site para espaço de eventos em Chapecó — galeria de fotos, tipos de celebração, formulário de orçamento e integração com WhatsApp.</p>
-            <a
-              class="site-showcase-link"
-              href="https://chacaradocris.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-i18n="sites_visit"
-            >Visitar site →</a>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section id="portfolio-social">
-    <div class="container">
-      <div class="section-head">
-        <span class="badge" data-i18n="portfolio_badge">Conteúdo real</span>
-        <h2 data-i18n-html="portfolio_h2">Posts criados pela <span class="gradient">DAAT</span></h2>
-        <p data-i18n="portfolio_lead">Criativos para Instagram e Facebook com identidade visual, copy estratégica e foco em engajamento e conversão.</p>
-      </div>
-      <div class="portfolio-carousel">
-        <div class="portfolio-track-wrap">
-          <div class="portfolio-track" id="portfolioTrack" data-i18n-aria="portfolio_aria" aria-label="Carrossel de posts para redes sociais" tabindex="0">
-            <article class="social-post">
-              <div class="social-post-head">
-                <div class="social-post-avatar" aria-hidden="true"></div>
-                <div class="social-post-meta">
-                  <b data-i18n="post1_client">dr.camargoquintao</b>
-                  <span>Instagram · DAAT</span>
-                </div>
-              </div>
-              <div class="social-post-visual social-post-visual--law">
-                <span data-i18n="post1_visual">Defesa jurídica estratégica em Direito Médico, Civil e Previdenciário</span>
-                <small data-i18n="post1_tag">Atendimento online · Todo o Brasil</small>
-              </div>
-              <div class="social-post-body">
-                <span class="social-post-platform social-post-platform--ig">Instagram</span>
-                <p data-i18n="post1_caption">Post institucional com CTA para WhatsApp e posicionamento de autoridade.</p>
-              </div>
-            </article>
-            <article class="social-post">
-              <div class="social-post-head">
-                <div class="social-post-avatar" aria-hidden="true"></div>
-                <div class="social-post-meta">
-                  <b data-i18n="post2_client">clinica.harmonizacao</b>
-                  <span>Instagram · DAAT</span>
-                </div>
-              </div>
-              <div class="social-post-visual social-post-visual--aesthetic">
-                <span data-i18n="post2_visual">Sua melhor versão começa com um plano personalizado</span>
-                <small data-i18n="post2_tag">Agende sua avaliação</small>
-              </div>
-              <div class="social-post-body">
-                <span class="social-post-platform social-post-platform--ig">Instagram</span>
-                <p data-i18n="post2_caption">Carrossel de serviços para clínica de estética — design premium e copy de conversão.</p>
-              </div>
-            </article>
-            <article class="social-post social-post--fb">
-              <div class="social-post-head">
-                <div class="social-post-avatar" aria-hidden="true"></div>
-                <div class="social-post-meta">
-                  <b data-i18n="post3_client">Dr. Camargo Quintão</b>
-                  <span>Facebook · DAAT</span>
-                </div>
-              </div>
-              <div class="social-post-visual social-post-visual--law">
-                <span data-i18n="post3_visual">Experiência, seriedade e compromisso jurídico</span>
-              </div>
-              <div class="social-post-body">
-                <span class="social-post-platform social-post-platform--fb">Facebook</span>
-                <p data-i18n="post3_caption">Criativo horizontal para campanha de reconhecimento e geração de contatos.</p>
-              </div>
-            </article>
-            <article class="social-post">
-              <div class="social-post-head">
-                <div class="social-post-avatar" aria-hidden="true"></div>
-                <div class="social-post-meta">
-                  <b data-i18n="post4_client">daat.midigital</b>
-                  <span>Instagram · DAAT</span>
-                </div>
-              </div>
-              <div class="social-post-visual social-post-visual--brand">
-                <span data-i18n="post4_visual">Landing page + tráfego + social = vendas previsíveis</span>
-              </div>
-              <div class="social-post-body">
-                <span class="social-post-platform social-post-platform--ig">Instagram</span>
-                <p data-i18n="post4_caption">Post educativo sobre funil digital — reforço de autoridade da agência.</p>
-              </div>
-            </article>
-            <article class="social-post">
-              <div class="social-post-head">
-                <div class="social-post-avatar" aria-hidden="true"></div>
-                <div class="social-post-meta">
-                  <b data-i18n="post5_client">clinica.harmonizacao</b>
-                  <span>Instagram · DAAT</span>
-                </div>
-              </div>
-              <div class="social-post-visual social-post-visual--tips">
-                <span data-i18n="post5_visual">5 sinais de que sua clínica precisa de marketing digital</span>
-              </div>
-              <div class="social-post-body">
-                <span class="social-post-platform social-post-platform--ig">Instagram</span>
-                <p data-i18n="post5_caption">Conteúdo de valor para nutrir leads e aumentar alcance orgânico.</p>
-              </div>
-            </article>
-            <article class="social-post social-post--fb">
-              <div class="social-post-head">
-                <div class="social-post-avatar" aria-hidden="true"></div>
-                <div class="social-post-meta">
-                  <b data-i18n="post6_client">DAAT Mídia Digital</b>
-                  <span>Facebook · DAAT</span>
-                </div>
-              </div>
-              <div class="social-post-visual social-post-visual--brand">
-                <span data-i18n="post6_visual">Diagnóstico gratuito do seu marketing digital</span>
-              </div>
-              <div class="social-post-body">
-                <span class="social-post-platform social-post-platform--fb">Facebook</span>
-                <p data-i18n="post6_caption">Anúncio estático para captação de leads via formulário e WhatsApp.</p>
-              </div>
-            </article>
-          </div>
-        </div>
-        <div class="portfolio-nav">
-          <button type="button" id="portfolioPrev" data-i18n="portfolio_prev">Anterior</button>
-          <button type="button" id="portfolioNext" data-i18n="portfolio_next">Próximo</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div id="sobre-nos"></div>
-  <section id="resultados">
-    <div class="container">
-      <div class="section-head">
-        <span class="badge" data-i18n="res_badge">Prova social</span>
-        <h2 data-i18n-html="res_h2">Quem contrata a DAAT <span class="gradient">É ESCOLHIDO PELOS CLIENTES!</span></h2>
-      </div>
-      <div class="depo depo--pair">
-        <article class="card">
-          <blockquote data-i18n="depo1_quote">"Em 60 dias nossa captação dobrou e o custo por lead caiu drasticamente."</blockquote>
-          <small data-i18n="depo1_meta">Diretor Comercial, empresa educacional</small>
-        </article>
-        <article class="card">
-          <blockquote data-i18n="depo2_quote">"Paramos de postar sem estratégia. Hoje temos conteúdo com posicionamento e geração de negócios."</blockquote>
-          <small data-i18n="depo2_meta">Dra Eduarda Henkel - Clinica de Harmonização Social</small>
-        </article>
-      </div>
-      <article class="case-full" id="case-gestao-completa">
-        <header class="case-full-header">
-          <span class="badge" data-i18n="case_full_badge">Case · Gestão Completa</span>
-          <h3 data-i18n="case_full_h3">Clínica de Harmonização · Dra Eduarda Henkel</h3>
-          <p data-i18n="case_full_lead">Site de captação + tráfego pago + social media integrados pela DAAT — a mesma entrega do pacote Gestão Completa do formulário.</p>
-        </header>
-        <div class="case-full-pillars">
-          <div class="case-pillar">
-            <div class="case-pillar-preview">
-              <div class="case-preview-site" aria-hidden="true">
-                <div class="case-preview-site-bar"></div>
-                <div class="case-preview-site-hero">
-                  <span data-i18n="case_full_site_mock">Agende sua avaliação personalizada</span>
-                  <span class="case-preview-site-cta" data-i18n="case_full_site_cta">WhatsApp</span>
-                </div>
-              </div>
-            </div>
-            <div class="case-pillar-body">
-              <span class="case-pillar-tag" data-i18n="case_full_pillar_site_tag">01 · Site</span>
-              <h4 data-i18n="case_full_pillar_site">Landing de agendamento</h4>
-              <p data-i18n="case_full_pillar_site_desc">Página focada em conversão com WhatsApp integrado, prova social e copy para procedimentos estéticos.</p>
-            </div>
-          </div>
-          <div class="case-pillar">
-            <div class="case-pillar-preview">
-              <div class="case-preview-ads" aria-hidden="true">
-                <div class="case-preview-ads-row">
-                  <span data-i18n="case_full_ads_row1">Leads/mês</span>
-                  <b>+92%</b>
-                </div>
-                <div class="case-preview-ads-row">
-                  <span data-i18n="case_full_ads_row2">CPL</span>
-                  <em>-41%</em>
-                </div>
-                <div class="case-preview-ads-row">
-                  <span data-i18n="case_full_ads_row3">ROAS</span>
-                  <b>3,8x</b>
-                </div>
-              </div>
-            </div>
-            <div class="case-pillar-body">
-              <span class="case-pillar-tag" data-i18n="case_full_pillar_trafego_tag">02 · Tráfego</span>
-              <h4 data-i18n="case_full_pillar_trafego">Meta Ads performance</h4>
-              <p data-i18n="case_full_pillar_trafego_desc">Campanhas de captação com criativos testados, segmentação local e otimização semanal orientada a CPL.</p>
-            </div>
-          </div>
-          <div class="case-pillar">
-            <div class="case-pillar-preview">
-              <div class="case-preview-social" aria-hidden="true">
-                <div class="case-preview-social-card">
-                  <div data-i18n="case_full_social_mock1">Sua melhor versão começa aqui</div>
-                </div>
-                <div class="case-preview-social-card">
-                  <div data-i18n="case_full_social_mock2">5 sinais de que sua clínica precisa de marketing</div>
-                </div>
-              </div>
-            </div>
-            <div class="case-pillar-body">
-              <span class="case-pillar-tag" data-i18n="case_full_pillar_social_tag">03 · Social</span>
-              <h4 data-i18n="case_full_pillar_social">Instagram estratégico</h4>
-              <p data-i18n="case_full_pillar_social_desc">Calendário editorial, design premium e conteúdo que posiciona a clínica e nutre leads do tráfego pago.</p>
-            </div>
-          </div>
-        </div>
-        <div class="case-full-kpis">
-          <div class="case-full-kpi">
-            <b data-i18n="case_full_kpi1_val">+92%</b>
-            <span data-i18n="case_full_kpi1_label">leads qualificados</span>
-          </div>
-          <div class="case-full-kpi">
-            <b data-i18n="case_full_kpi2_val">-41%</b>
-            <span data-i18n="case_full_kpi2_label">custo por lead</span>
-          </div>
-          <div class="case-full-kpi">
-            <b data-i18n="case_full_kpi3_val">12</b>
-            <span data-i18n="case_full_kpi3_label">posts/mês no Instagram</span>
-          </div>
-        </div>
-        <footer class="case-full-foot">
-          <blockquote>
-            <span data-i18n="case_full_quote">"Paramos de postar sem estratégia. Hoje temos conteúdo com posicionamento e geração de negócios."</span>
-            <small data-i18n="case_full_attrib">Dra Eduarda Henkel — Clínica de Harmonização Social</small>
-          </blockquote>
-          <a class="btn btn-main" href="#contato" data-i18n="case_full_cta">Quero Gestão Completa</a>
-        </footer>
-      </article>
-      <div class="proof-case">
-        <div class="proof-case-head proof-case-head--spotlight">
-          <span class="badge" data-i18n="proof_badge">Projeto real + depoimento</span>
-          <h3 data-i18n="proof_h3">Dr. Camargo Quintão · Advocacia &amp; Consultoria</h3>
-          <p class="proof-case-lead" data-i18n="proof_lead">Landing page profissional criada pela DAAT para o escritório.</p>
-          <div class="ba-static-pair" style="margin: 20px 0;">
-            <figure class="ba-static-card ba-static-card--after">
-              <img src="assets/prova-social-camargo-notebook.png" data-i18n-alt="proof_img1_alt" alt="Site do Dr. Camargo Quintão no notebook" width="1200" height="750" loading="lazy" decoding="async">
-            </figure>
-            <figure class="ba-static-card ba-static-card--after">
-              <img src="assets/prova-social-camargo-escritorio.png" data-i18n-alt="proof_img2_alt" alt="Site do Dr. Camargo Quintão em mockup de escritório" width="1200" height="750" loading="lazy" decoding="async">
-            </figure>
-          </div>
-          <blockquote class="proof-case-quote" data-i18n="proof_quote">"A landing page ficou profissional e converte muito melhor que nosso site antigo."</blockquote>
-          <small class="proof-case-attrib" data-i18n="proof_attrib">Dr Camargo Quintão — Escritório de Advocacia</small>
-          <a class="site-showcase-link" href="https://daatmidia.github.io/Camargoquintaoadvogado/" target="_blank" rel="noopener noreferrer" data-i18n="sites_visit" style="margin-top: 14px;">Visitar site →</a>
-        </div>
-        <div class="proof-case-head proof-case-head--spotlight" style="margin-top: 28px; padding-top: 28px; border-top: 1px solid var(--c-border);">
-          <span class="badge" data-i18n="proof_chacara_badge">Projeto real no ar</span>
-          <h3 data-i18n="proof_chacara_h3">Chácara do Cris · Espaço para Eventos</h3>
-          <p class="proof-case-lead" data-i18n="proof_chacara_lead">Site institucional criado pela DAAT para casamentos, formaturas e eventos corporativos em Chapecó — SC.</p>
-          <a class="site-showcase-link" href="https://chacaradocris.com" target="_blank" rel="noopener noreferrer" data-i18n="sites_visit" style="margin-top: 8px;">Visitar site →</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="container">
-      <div class="section-head">
-        <span class="badge" data-i18n="faq_badge">Dúvidas frequentes</span>
-        <h2 data-i18n-html="faq_h2">Perguntas de quem quer <span class="gradient">crescer com segurança</span></h2>
-      </div>
-      <div class="faq">
-        <details>
-          <summary data-i18n="faq_sum1">Em quanto tempo começo a ver resultado?</summary>
-          <p data-i18n="faq_p1">Normalmente os primeiros indicadores melhoram entre 15 e 30 dias, com ganho consistente entre 60 e 90 dias.</p>
-        </details>
-        <details>
-          <summary data-i18n="faq_sum2">Vocês fazem só tráfego ou entregam tudo?</summary>
-          <p data-i18n="faq_p2">Entregamos estratégia completa: landing page, criativos, campanhas, social media e acompanhamento com foco em vendas.</p>
-        </details>
-        <details>
-          <summary data-i18n="faq_sum3">Como acompanho o desempenho?</summary>
-          <p data-i18n="faq_p3">Você recebe acompanhamento recorrente com métricas claras de leads, CAC, CPL, ROAS e evolução de conversão.</p>
-        </details>
+        <article class="card"><h3 class="animated-title flow-title" data-i18n="aud1_h3">Negócios locais</h3><p data-i18n="aud1_p">Clínicas, escolas, estéticas e serviços que querem agenda cheia com mídia de performance.</p></article>
+        <article class="card"><h3 class="animated-title flow-title" data-i18n="aud2_h3">E-commerce</h3><p data-i18n="aud2_p">Lojas virtuais que precisam aumentar ticket, recompra e escalar faturamento com rentabilidade.</p></article>
+        <article class="card"><h3 class="animated-title flow-title" data-i18n="aud3_h3">Prestadores B2B</h3><p data-i18n="aud3_p">Empresas que vendem serviços de maior valor e precisam de pipeline qualificado.</p></article>
       </div>
     </div>
   </section>
 
   <section id="planos">
-    <div class="container">
-      <div class="section-head">
-        <span class="badge" data-i18n="planos_badge">Investimento</span>
-        <h2 data-i18n-html="planos_h2">Pacotes <span class="gradient">Básico</span>, Performance e Full</h2>
-        <p data-i18n="planos_lead">Escolha o plano ideal para o seu momento. Valores mensais de referência — proposta final personalizada após diagnóstico.</p>
+    <div class="planos-glass-shell">
+      <img class="planos-glass-bg" src="assets/clarix/images/gradient.png" alt="" aria-hidden="true">
+      <div class="container planos-glass-inner">
+        <div class="section-head">
+          <span class="badge" data-i18n="planos_badge">Investimento</span>
+          <h2 class="animated-title flow-title" data-i18n-html="planos_h2">Pacotes: <strong>Básico</strong>, <strong>Performance</strong> e <strong>Full</strong></h2>
+          <p data-i18n="planos_lead">Escolha o plano ideal para o seu momento. Valores mensais de referência — proposta final personalizada após diagnóstico.</p>
+        </div>
+        <div class="planos-grid">
+          <article class="plano-card">
+            <h3 class="plano-name" data-i18n="plano_basico_name">Básico</h3>
+            <p class="plano-desc" data-i18n="plano_basico_desc">Presença digital profissional para começar a captar clientes online.</p>
+            <div class="plano-price-wrap">
+              <span class="plano-from" data-i18n="planos_from">a partir de</span>
+              <span class="plano-price" data-i18n="plano_basico_price">R$ 1.997</span>
+              <span class="plano-period" data-i18n="planos_month">/mês</span>
+            </div>
+            <ul class="plano-features">
+              <li data-i18n="plano_basico_f1">Landing page ou site até 5 páginas</li>
+              <li data-i18n="plano_basico_f2">8 posts/mês (1 rede social)</li>
+              <li data-i18n="plano_basico_f3">2 rodadas de ajustes inclusas</li>
+              <li data-i18n="plano_basico_f4">Relatório mensal de desempenho</li>
+            </ul>
+            <a class="btn btn-ghost" href="#contato" data-i18n="planos_cta">Quero este plano</a>
+          </article>
+          <article class="plano-card plano-card--featured">
+            <span class="plano-popular" data-i18n="planos_popular">Mais escolhido</span>
+            <h3 class="plano-name" data-i18n="plano_perf_name">Performance</h3>
+            <p class="plano-desc" data-i18n="plano_perf_desc">Site + tráfego pago + social media para escalar leads com previsibilidade.</p>
+            <div class="plano-price-wrap">
+              <span class="plano-from" data-i18n="planos_from">a partir de</span>
+              <span class="plano-price" data-i18n="plano_perf_price">R$ 3.997</span>
+              <span class="plano-period" data-i18n="planos_month">/mês</span>
+            </div>
+            <ul class="plano-features">
+              <li data-i18n="plano_perf_f1">Site completo + landing de campanha</li>
+              <li data-i18n="plano_perf_f2">Gestão de tráfego (Meta ou Google)</li>
+              <li data-i18n="plano_perf_f3">12 posts/mês (2 redes sociais)</li>
+              <li data-i18n="plano_perf_f4">Reunião quinzenal de performance</li>
+              <li data-i18n="plano_perf_f5">Otimização contínua de campanhas</li>
+            </ul>
+            <a class="btn btn-main" href="#contato" data-i18n="planos_cta">Quero este plano</a>
+          </article>
+          <article class="plano-card">
+            <h3 class="plano-name" data-i18n="plano_full_name">Full</h3>
+            <p class="plano-desc" data-i18n="plano_full_desc">Operação digital completa com estrategista dedicado e máximo ROI.</p>
+            <div class="plano-price-wrap">
+              <span class="plano-from" data-i18n="planos_from">a partir de</span>
+              <span class="plano-price" data-i18n="plano_full_price">R$ 6.997</span>
+              <span class="plano-period" data-i18n="planos_month">/mês</span>
+            </div>
+            <ul class="plano-features">
+              <li data-i18n="plano_full_f1">Tudo do plano Performance</li>
+              <li data-i18n="plano_full_f2">Tráfego Meta + Google Ads</li>
+              <li data-i18n="plano_full_f3">20 posts/mês (3 redes sociais)</li>
+              <li data-i18n="plano_full_f4">2 landing pages extras/trimestre</li>
+              <li data-i18n="plano_full_f5">Suporte prioritário e estrategista dedicado</li>
+            </ul>
+            <a class="btn btn-ghost" href="#contato" data-i18n="planos_cta">Quero este plano</a>
+          </article>
+        </div>
+        <p class="planos-note" data-i18n="planos_note">* Valores indicativos. Investimento final varia conforme escopo, nicho e objetivos. Solicite diagnóstico gratuito.</p>
       </div>
-      <div class="planos-grid">
-        <article class="plano-card">
-          <h3 class="plano-name" data-i18n="plano_basico_name">Básico</h3>
-          <p class="plano-desc" data-i18n="plano_basico_desc">Presença digital profissional para começar a captar clientes online.</p>
-          <div class="plano-price-wrap">
-            <span class="plano-from" data-i18n="planos_from">a partir de</span>
-            <span class="plano-price" data-i18n="plano_basico_price">R$ 1.997</span>
-            <span class="plano-period" data-i18n="planos_month">/mês</span>
-          </div>
-          <ul class="plano-features">
-            <li data-i18n="plano_basico_f1">Landing page ou site até 5 páginas</li>
-            <li data-i18n="plano_basico_f2">8 posts/mês (1 rede social)</li>
-            <li data-i18n="plano_basico_f3">2 rodadas de ajustes inclusas</li>
-            <li data-i18n="plano_basico_f4">Relatório mensal de desempenho</li>
-          </ul>
-          <a class="btn btn-ghost" href="#contato" data-i18n="planos_cta">Quero este plano</a>
-        </article>
-        <article class="plano-card plano-card--featured">
-          <span class="plano-popular" data-i18n="planos_popular">Mais escolhido</span>
-          <h3 class="plano-name" data-i18n="plano_perf_name">Performance</h3>
-          <p class="plano-desc" data-i18n="plano_perf_desc">Site + tráfego pago + social media para escalar leads com previsibilidade.</p>
-          <div class="plano-price-wrap">
-            <span class="plano-from" data-i18n="planos_from">a partir de</span>
-            <span class="plano-price" data-i18n="plano_perf_price">R$ 3.997</span>
-            <span class="plano-period" data-i18n="planos_month">/mês</span>
-          </div>
-          <ul class="plano-features">
-            <li data-i18n="plano_perf_f1">Site completo + landing de campanha</li>
-            <li data-i18n="plano_perf_f2">Gestão de tráfego (Meta ou Google)</li>
-            <li data-i18n="plano_perf_f3">12 posts/mês (2 redes sociais)</li>
-            <li data-i18n="plano_perf_f4">Reunião quinzenal de performance</li>
-            <li data-i18n="plano_perf_f5">Otimização contínua de campanhas</li>
-          </ul>
-          <a class="btn btn-main" href="#contato" data-i18n="planos_cta">Quero este plano</a>
-        </article>
-        <article class="plano-card">
-          <h3 class="plano-name" data-i18n="plano_full_name">Full</h3>
-          <p class="plano-desc" data-i18n="plano_full_desc">Operação digital completa com estrategista dedicado e máximo ROI.</p>
-          <div class="plano-price-wrap">
-            <span class="plano-from" data-i18n="planos_from">a partir de</span>
-            <span class="plano-price" data-i18n="plano_full_price">R$ 6.997</span>
-            <span class="plano-period" data-i18n="planos_month">/mês</span>
-          </div>
-          <ul class="plano-features">
-            <li data-i18n="plano_full_f1">Tudo do plano Performance</li>
-            <li data-i18n="plano_full_f2">Tráfego Meta + Google Ads</li>
-            <li data-i18n="plano_full_f3">20 posts/mês (3 redes sociais)</li>
-            <li data-i18n="plano_full_f4">2 landing pages extras/trimestre</li>
-            <li data-i18n="plano_full_f5">Suporte prioritário e estrategista dedicado</li>
-          </ul>
-          <a class="btn btn-ghost" href="#contato" data-i18n="planos_cta">Quero este plano</a>
-        </article>
-      </div>
-      <p class="planos-note" data-i18n="planos_note">* Valores indicativos. Investimento final varia conforme escopo, nicho e objetivos. Solicite diagnóstico gratuito.</p>
     </div>
   </section>
+  </div>
 
-  <section id="contato">
-    <div class="container cta-final">
-      <div class="section-head">
-        <span class="badge" data-i18n="cta_badge">Vamos conversar</span>
-        <h2 data-i18n="cta_h2">Solicite seu plano de crescimento digital</h2>
-        <p data-i18n="cta_p">Preencha os dados e receba uma proposta sob medida para o seu momento de negócio.</p>
+  <div class="phase5-container" id="phase5-container">
+    <h3 class="feature-title phase5-title-left animated-title" id="phase5-title-1" data-i18n-html="phase5_title">
+      Sua <span class="phase5-em">marca conectada</span> ao <span class="phase5-em">futuro digital</span>.
+    </h3>
+  </div>
+
+  <div class="phase6-container" id="phase6-container">
+    <h3 class="phase6-title animated-title" id="phase6-title" data-i18n-html="phase6_title">
+      Mais que presença digital.<br><span class="phase6-em">Estratégia</span> <span class="phase6-light">para</span> <span class="phase6-em">crescer</span>.
+    </h3>
+  </div>
+
+  <div class="glass-container" id="glass-container">
+    <div id="glass-gradient" class="glass-gradient-wrapper">
+      <img src="assets/clarix/images/gradient.png" class="glass-gradient-img" alt="" aria-hidden="true">
+      <div class="gradient-content" id="contato">
+        <div class="contato-glass-head">
+          <span class="contato-glass-badge" data-i18n="cta_badge">Vamos conversar?</span>
+          <h2 class="contato-glass-title" id="phase3-title" data-i18n-html="cta_h2">Solicite seu <strong>plano de crescimento</strong> digital</h2>
+          <p class="contato-glass-lead" data-i18n="cta_p">Preencha os dados e receba uma proposta sob medida para o seu momento de negócio.</p>
+        </div>
+        <form class="form-grid" id="leadForm">
+          <label class="hp-field" aria-hidden="true">
+            <input type="text" name="website" tabindex="-1" autocomplete="off">
+          </label>
+          <input type="text" name="nome" data-i18n-placeholder="form_name" placeholder="Nome completo" required>
+          <input type="text" name="empresa" data-i18n-placeholder="form_company" placeholder="Empresa" required>
+          <input type="email" name="email" data-i18n-placeholder="form_email" placeholder="E-mail corporativo" required>
+          <input type="tel" name="whatsapp" data-i18n-placeholder="form_wa" placeholder="WhatsApp" required>
+          <select name="servico" required>
+            <option value="" data-i18n="form_service">Qual serviço você precisa?</option>
+            <option value="landing" data-i18n="form_opt_landing">Landing Page de Alta Conversão</option>
+            <option value="trafego" data-i18n="form_opt_trafego">Tráfego Pago</option>
+            <option value="social" data-i18n="form_opt_social">Social Media</option>
+            <option value="full" data-i18n="form_opt_full">Gestão Completa (Landing + Tráfego + Social)</option>
+          </select>
+          <input type="text" name="orcamento" data-i18n-placeholder="form_budget" placeholder="Investimento mensal estimado">
+          <textarea name="objetivo" data-i18n-placeholder="form_goal" placeholder="Descreva seu objetivo principal para os próximos 90 dias"></textarea>
+          <button class="btn btn-main full" type="submit" data-i18n="form_submit">Quero receber meu diagnóstico</button>
+        </form>
+        <div class="contato-glass-foot">
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+          <p class="notice" data-i18n="form_notice">Ao enviar, você concorda em receber contato da equipe DAAT para apresentação da estratégia.</p>
+        </div>
       </div>
-      <form class="form-grid" id="leadForm">
-        <label class="hp-field" aria-hidden="true">
-          <input type="text" name="website" tabindex="-1" autocomplete="off">
-        </label>
-        <input type="text" name="nome" data-i18n-placeholder="form_name" placeholder="Nome completo" required>
-        <input type="text" name="empresa" data-i18n-placeholder="form_company" placeholder="Empresa" required>
-        <input type="email" name="email" data-i18n-placeholder="form_email" placeholder="E-mail corporativo" required>
-        <input type="tel" name="whatsapp" data-i18n-placeholder="form_wa" placeholder="WhatsApp" required>
-        <select name="servico" required>
-          <option value="" data-i18n="form_service">Qual serviço você precisa?</option>
-          <option value="landing" data-i18n="form_opt_landing">Landing Page de Alta Conversão</option>
-          <option value="trafego" data-i18n="form_opt_trafego">Tráfego Pago</option>
-          <option value="social" data-i18n="form_opt_social">Social Media</option>
-          <option value="full" data-i18n="form_opt_full">Gestão Completa (Landing + Tráfego + Social)</option>
-        </select>
-        <input type="text" name="orcamento" data-i18n-placeholder="form_budget" placeholder="Investimento mensal estimado">
-        <textarea name="objetivo" data-i18n-placeholder="form_goal" placeholder="Descreva seu objetivo principal para os próximos 90 dias"></textarea>
-        <button class="btn btn-main full" type="submit" data-i18n="form_submit">Quero receber meu diagnóstico</button>
-      </form>
-      <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
-      <p class="notice" data-i18n="form_notice">Ao enviar, você concorda em receber contato da equipe DAAT para apresentação da estratégia.</p>
     </div>
-  </section>
+  </div>
 
-  <footer>
-    <div class="container foot">
-      <div class="foot-brand">
-        <img src="assets/logo-daat-real.png" data-i18n-alt="footer_logo_alt" alt="Logo DAAT" width="1024" height="1024" decoding="async">
-        <span>DAAT Mídia Digital</span>
+  <footer class="site-footer">
+    <div class="glass-footer">
+      <div class="footer-top">
+        <div class="footer-left">
+          <p class="footer-heading">DAAT Mídia Digital</p>
+          <p class="footer-tagline" data-i18n="footer_tagline">Landing page profissional para conversão e vendas.</p>
+          <form class="footer-input-group" action="planos.html#contato" method="get">
+            <input
+              class="footer-input"
+              type="email"
+              name="email"
+              data-i18n-placeholder="footer_email_ph"
+              placeholder="Seu e-mail"
+              required
+            >
+            <button class="footer-submit" type="submit" data-i18n="footer_submit">Enviar</button>
+          </form>
+          <p class="footer-subtext" data-i18n="footer_privacy">
+            Ao enviar, você concorda em receber contato da DAAT conforme nossa política de privacidade.
+          </p>
+        </div>
+        <div class="footer-right">
+          <div class="footer-col">
+            <span class="footer-col-title" data-i18n="footer_col_servicos">Serviços</span>
+            <a href="servicos.html#servico-social" data-i18n="footer_link_social">Social Media</a>
+            <a href="servicos.html#servico-landing" data-i18n="footer_link_web">Websites &amp; Landing</a>
+            <a href="servicos.html#servico-trafego" data-i18n="footer_link_trafego">Tráfego Pago</a>
+          </div>
+          <div class="footer-col">
+            <span class="footer-col-title" data-i18n="footer_col_empresa">Empresa</span>
+            <a href="sobre-nos.html" data-i18n="nav_sobre">Sobre nós</a>
+            <a href="resultados.html" data-i18n="nav_resultados">Resultados</a>
+            <a href="planos.html" data-i18n="nav_planos">Planos</a>
+          </div>
+          <div class="footer-col">
+            <span class="footer-col-title" data-i18n="footer_col_contato">Contato</span>
+            <a href="planos.html#contato" data-i18n="footer_link_form">Diagnóstico</a>
+            <a href="ouvidoria.html" data-i18n="footer_link_ouvidoria">Ouvidoria</a>
+            <a href="conheca-o-projeto.html" data-i18n="footer_link_projeto">Redes Sociais</a>
+          </div>
+          <div class="footer-col">
+            <span class="footer-col-title" data-i18n="footer_col_legal">Legal</span>
+            <a href="ouvidoria.html" data-i18n="footer_link_terms">Termos</a>
+            <a href="ouvidoria.html" data-i18n="footer_link_privacy">Privacidade</a>
+          </div>
+        </div>
       </div>
-      <div data-i18n="footer_tagline">Landing page profissional para conversão e vendas.</div>
+      <div class="footer-line" aria-hidden="true"></div>
+      <div class="footer-bottom" data-i18n="footer_copy">© 2026 DAAT Mídia Digital. Todos os direitos reservados.</div>
     </div>
   </footer>
 
 
-  <div class="a11y-widget" id="a11yWidget">
-    <button type="button" class="a11y-toggle" id="a11yToggle" aria-expanded="false" aria-controls="a11yPanel" data-i18n-aria="a11y_toggle_open" aria-label="Abrir acessibilidade">
-      <span class="a11y-toggle-emoji" aria-hidden="true">🤟</span>
-      <span class="a11y-toggle-label" aria-hidden="true">LIBRAS</span>
-    </button>
-    <div class="a11y-panel" id="a11yPanel" role="dialog" aria-modal="false" aria-label="Acessibilidade">
-      <p class="a11y-title" data-i18n="a11y_title">Acessibilidade</p>
-      <div class="a11y-row">
-        <span data-i18n="a11y_font_label">Fonte</span>
-        <div class="a11y-actions">
-          <button type="button" class="a11y-btn" id="a11yFontMinus" data-i18n-title="a11y_font_minus" title="Fonte menor">A-</button>
-          <button type="button" class="a11y-btn" id="a11yFontReset" data-i18n-title="a11y_font_reset" title="Fonte padrão">100%</button>
-          <button type="button" class="a11y-btn" id="a11yFontPlus" data-i18n-title="a11y_font_plus" title="Fonte maior">A+</button>
-        </div>
-      </div>
-      <div class="a11y-row">
-        <span data-i18n="a11y_high_contrast">Alto contraste</span>
-        <button type="button" class="a11y-switch" id="a11yContrast" data-i18n="a11y_off">Desativado</button>
-      </div>
-      <div class="a11y-row">
-        <span data-i18n="a11y_grayscale">Escala de cinza</span>
-        <button type="button" class="a11y-switch" id="a11yGrayscale" data-i18n="a11y_off">Desativado</button>
-      </div>
-      <div class="a11y-row">
-        <span data-i18n="a11y_reduce_motion">Reduzir movimento</span>
-        <button type="button" class="a11y-switch" id="a11yMotion" data-i18n="a11y_off">Desativado</button>
-      </div>
-    </div>
-  </div>
   <a
     id="whatsappFloat"
     class="whatsapp-float-wrap"
@@ -3115,9 +3531,6 @@
     data-i18n-title="wa_title"
     title="Falar no WhatsApp"
   >
-    <div class="whatsapp-bubble" role="presentation" data-i18n="wa_bubble">
-      Fale com nossa equipe de atendimento 😃
-    </div>
     <span class="whatsapp-float">
       <!-- Ícone oficial WhatsApp (viewBox 24×24, mesmo traçado da marca) -->
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -3129,18 +3542,8 @@
     </span>
   </a>
 
-  <script src="i18n-site.js"></script>
+  <script src="i18n-site.js?v=36"></script>
   <script>
-    (function () {
-      const nav = document.querySelector(".navbar");
-      if (!nav) return;
-      const solid = () => {
-        if (window.scrollY > 56) nav.classList.add("navbar--solid");
-        else nav.classList.remove("navbar--solid");
-      };
-      solid();
-      window.addEventListener("scroll", solid, { passive: true });
-    })();
 
     (function () {
       const counters = document.querySelectorAll(".kpi-value[data-count]");
@@ -3422,6 +3825,7 @@
       );
     })();
 
+
     (function () {
       const dd = document.querySelector("[data-dropdown]");
       if (dd) {
@@ -3451,7 +3855,7 @@
           close();
         });
         if (menu) {
-          menu.querySelectorAll('a[href^="#"]').forEach((a) => {
+          menu.querySelectorAll("a").forEach((a) => {
             a.addEventListener("click", () => {
               close();
               window.DAAT_closeNavDrawer?.();
@@ -3549,38 +3953,10 @@
 
       apply();
     })();
-
-    (function () {
-      const audio = document.getElementById("siteBgMusic");
-      const btn = document.getElementById("bgMusicToggle");
-      if (!audio || !btn) return;
-      audio.volume = 0.55;
-
-      const setPlaying = (playing) => {
-        btn.classList.toggle("is-playing", playing);
-        btn.setAttribute("aria-pressed", playing ? "true" : "false");
-        const lang = document.documentElement.lang === "en-US" ? "en-US" : "pt-BR";
-        const bag = window.DAAT_I18N && window.DAAT_I18N.strings ? window.DAAT_I18N.strings[lang] : null;
-        if (bag) {
-          btn.setAttribute("aria-label", playing ? bag.audio_pause : bag.audio_play);
-        } else {
-          btn.setAttribute("aria-label", playing ? "Pausar música" : "Reproduzir música");
-        }
-      };
-
-      btn.addEventListener("click", () => {
-        if (audio.paused) {
-          audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
-        } else {
-          audio.pause();
-          setPlaying(false);
-        }
-      });
-
-      audio.addEventListener("play", () => setPlaying(true));
-      audio.addEventListener("pause", () => setPlaying(false));
-      audio.addEventListener("ended", () => setPlaying(false));
-    })();
   </script>
+
+  <script defer src="assets/clarix/js/vendor.js"></script>
+  <script defer src="assets/clarix/js/embedded-assets.js"></script>
+  <script defer src="assets/clarix/js/main.js?v=40"></script>
 </body>
 </html>

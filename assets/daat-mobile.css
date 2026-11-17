@@ -1,0 +1,363 @@
+/* DAAT — polish mobile / tablet (carregado depois do CSS inline) */
+
+@media (max-width: 900px) {
+  :root {
+    --maxw: calc(100% - 2.5rem);
+    --page-gutter: 1.25rem;
+  }
+
+  html {
+    font-size: 15px;
+  }
+
+  .container {
+    width: var(--maxw);
+  }
+
+  .section-head {
+    max-width: none;
+    margin-bottom: 1.75rem;
+  }
+
+  .section-head h2,
+  .section-head h2 strong,
+  .scroll-title-container h3,
+  .scroll-title-container h3 strong,
+  #servicos .section-head .serv-lead-line,
+  .feature-title,
+  .phase6-title,
+  .contato-glass-title,
+  .planos-glass-inner .section-head h2 {
+    white-space: normal !important;
+  }
+
+  .section-head h2,
+  .scroll-title-container h3 {
+    font-size: clamp(1.45rem, 5.6vw, 1.9rem);
+    line-height: 1.15;
+  }
+
+  #servicos .section-head .serv-lead-line {
+    display: inline;
+  }
+
+  .section-head p,
+  .contato-glass-lead {
+    max-width: none;
+    font-size: 0.98rem;
+  }
+
+  .services,
+  .audience,
+  .planos-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.9rem;
+  }
+
+  .card {
+    border-radius: 1.35rem;
+    padding: 1.2rem 1.25rem;
+  }
+
+  .servicos-linhas-grid {
+    gap: 0.55rem;
+  }
+
+  .servicos-linha-link {
+    font-size: 0.82rem;
+    height: 2.45rem;
+    padding: 0 0.95rem;
+  }
+
+  .planos-glass-shell,
+  .contato-glass-shell {
+    width: calc(100% - 1.5rem);
+    border-radius: 1.35rem;
+  }
+
+  .planos-glass-inner,
+  .contato-glass-content {
+    padding: 1.35rem 1.15rem 1.2rem;
+  }
+
+  .contato-glass-title {
+    font-size: clamp(1.2rem, 5.2vw, 1.65rem);
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .notice,
+  .footer-subtext {
+    white-space: normal !important;
+    max-width: none;
+  }
+
+  .footer-top {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .footer-left {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .footer-right {
+    flex-wrap: wrap;
+    gap: 1.5rem 2rem;
+    padding-right: 0;
+  }
+
+  .footer-input-group {
+    max-width: none;
+  }
+
+  .glass-gradient-wrapper {
+    width: calc(100% - 1.25rem) !important;
+    min-height: 0 !important;
+    max-height: calc(100% - 1.25rem) !important;
+    border-radius: 1.35rem !important;
+  }
+
+  .gradient-content {
+    padding: 1.25rem 1.1rem 1.1rem !important;
+    gap: 1rem !important;
+  }
+}
+
+@media (max-width: 700px) {
+  :root {
+    --maxw: calc(100% - 2rem);
+    --page-gutter: 1rem;
+  }
+
+  html {
+    font-size: 16px;
+  }
+
+  body {
+    box-shadow: none;
+  }
+
+  section {
+    padding: 3.25rem 0;
+  }
+
+  body.subpage main.subpage-main {
+    padding-top: 4.75rem;
+  }
+
+  /* Hero */
+  .hero-copy {
+    left: 1rem !important;
+    right: 1rem !important;
+    max-width: none !important;
+  }
+
+  #animated-hero-title {
+    font-size: clamp(1.85rem, 8.5vw, 2.35rem) !important;
+    white-space: normal !important;
+  }
+
+  .hero-title-lead {
+    white-space: normal !important;
+  }
+
+  .hero-slide {
+    font-size: clamp(1.2rem, 6.8vw, 1.75rem) !important;
+    max-width: 100% !important;
+  }
+
+  .hero-slide-word {
+    white-space: normal;
+  }
+
+  .hero-under-title .lead {
+    white-space: normal !important;
+    font-size: 0.98rem;
+    max-width: 36ch;
+  }
+
+  .hero-under-title .hi-btn,
+  .services-wa-cta .hi-btn {
+    width: 100%;
+    max-width: 100%;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.82rem;
+    padding: 0.95rem 1.25rem;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-brand-mark-wrap {
+    max-width: min(100%, 14rem);
+  }
+
+  /* Clientes / marquee */
+  .clients-subtitle {
+    padding-left: 1rem;
+    font-size: 0.78rem;
+  }
+
+  .clients-container > .clients-line {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
+  .marquee-logo {
+    height: 2.35rem;
+  }
+
+  .marquee-content {
+    gap: 2.5rem;
+    padding-right: 2.5rem;
+  }
+
+  /* Scroll title + diffs */
+  .scroll-title-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .diff-dock-list {
+    max-width: calc(100vw - 2rem);
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .diff-dock {
+    font-size: 0.98rem;
+  }
+
+  /* Frases / palavras Clarix */
+  .flying-word {
+    font-size: clamp(1.55rem, 10vw, 2.6rem) !important;
+  }
+
+  .feature-title {
+    font-size: clamp(1.2rem, 5.8vw, 1.65rem) !important;
+    white-space: normal !important;
+    max-width: calc(100% - 2rem);
+    width: auto !important;
+  }
+
+  .phase5-title-left {
+    top: 66% !important;
+    left: 50% !important;
+    transform: translate(-50%, 0) !important;
+    text-align: center !important;
+  }
+
+  .phase6-title {
+    font-size: clamp(1.35rem, 7vw, 2rem) !important;
+    white-space: normal !important;
+    padding: 0 1.15rem !important;
+    box-sizing: border-box;
+  }
+
+  /* Cards de serviço / planos */
+  .plano-card--featured {
+    transform: none;
+  }
+
+  .plano-price {
+    font-size: clamp(1.6rem, 8vw, 2.1rem);
+  }
+
+  .services-wa-cta {
+    margin-top: 1.25rem;
+  }
+
+  /*
+    Em mobile os blocos finais cobriam a logo DAAT (z-index 5 > canvas 3).
+    Ficam atrás do canvas até o JS liberar após a fase da logo.
+  */
+  .home-end-flow {
+    z-index: 2;
+    transition: opacity 0.35s ease;
+  }
+  .home-end-flow.is-logo-clear {
+    z-index: 5;
+  }
+
+  #para-quem {
+    margin-top: 10vh;
+    padding-top: 1.5rem;
+  }
+
+  .home-end-flow #planos {
+    margin-top: 10vh;
+    padding-top: 2rem;
+  }
+
+  #contato.contato-glass-section {
+    padding: 2rem 0 3rem;
+  }
+
+  .contato-glass-badge {
+    font-size: 0.72rem;
+  }
+
+  .contato-glass-shell .form-grid .btn-main,
+  .glass-container .form-grid .btn-main {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Footer */
+  .glass-footer {
+    padding: 1.35rem 1.15rem;
+    border-radius: 1.35rem;
+  }
+
+  footer.site-footer {
+    padding: 1.25rem 0.85rem 2rem;
+  }
+
+  .footer-col {
+    min-width: 6.5rem;
+  }
+
+  .footer-heading {
+    font-size: 1.05rem;
+  }
+
+  .footer-tagline {
+    max-width: none;
+  }
+
+  /* Float WhatsApp */
+  .whatsapp-float-wrap {
+    right: 0.75rem;
+    bottom: 0.75rem;
+  }
+
+  .whatsapp-bubble {
+    display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  :root {
+    --maxw: calc(100% - 1.5rem);
+  }
+
+  .section-head h2,
+  .scroll-title-container h3 {
+    font-size: clamp(1.3rem, 6.8vw, 1.65rem);
+  }
+
+  .servicos-linha-link {
+    font-size: 0.78rem;
+    height: 2.3rem;
+    padding: 0 0.8rem;
+  }
+
+  .hero-under-title .hi-btn {
+    font-size: 0.76rem;
+    padding: 0.9rem 1rem;
+  }
+}
