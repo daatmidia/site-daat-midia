@@ -231,9 +231,9 @@
     font-size: 0.98rem;
   }
 
-  /* Frases / palavras Clarix */
+  /* Frases / palavras Clarix — Planejamento / Conteúdo / Resultados */
   .flying-word {
-    font-size: clamp(1.55rem, 10vw, 2.6rem) !important;
+    font-size: clamp(2.75rem, 15vw, 4.25rem) !important;
   }
 
   .feature-title {
